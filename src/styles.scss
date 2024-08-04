@@ -1,1 +1,86 @@
 /* You can add global styles to this file, and also import other style files */
+/* Importing Bootstrap SCSS file. */
+@import 'bootstrap/scss/bootstrap';
+
+:root {
+  --bg-black: #0F171A;
+  --bg-green: #36DB70;
+  --dark-01: #141E22;
+  --dark-02: #1A262D;
+  --dark-03: #283943;
+  --dark-04: #2E414D;
+  --dark-green: #1cbf55;
+  --white: #FDFDFD;
+}
+
+
+*::before, *::after {
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg-black) !important;
+  color: var(--white);
+}
+
+.input {
+  height: 2.4rem;
+  border-radius: 5px;
+  border: 1px solid var(--dark-04);
+  background-color: var(--dark-03);
+  padding: 0 .5rem;
+  color: var(--white);
+}
+.prod-btn {
+  padding: .5rem 1.2rem;
+  border-radius: 12px;
+  transition: all .3s;
+  border: none;
+  font-size: 12px;
+}
+
+.prod-btn-primary {
+  background-color: var(--bg-green);
+  color: white;
+  &:hover {
+    background-color: var(--dark-green);
+  }
+  &:disabled {
+    border: 1px solid var(--bg-green);
+    background-color: transparent;
+    color: var(--bg-green);
+  }
+}
+.prod-btn-secondary {
+  background-color: var(--dark-04);
+  color: var(--white);
+  &:hover {
+    background-color: var(--dark-03);
+  }
+  &:disabled {
+    border: 1px solid var(--dark-04);
+    background-color: transparent;
+    color: var(--dark-04);
+  }
+}
+
+.prod-modal {
+  border: 1px solid var(--bg-green);
+  background-color: var(--bg-black);
+  border-radius: 10px;
+  .modal-header {
+    width: 100%;
+    border-bottom: 1px solid var(--dark-03);
+    padding: 1rem;
+    color: var(--bg-green);
+    text-align: center;
+  }
+  .modal-body {
+    padding: 1.5rem;
+    color: var(--white);
+  }
+}
+
+

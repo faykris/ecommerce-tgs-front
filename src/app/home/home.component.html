@@ -1,0 +1,33 @@
+<div class="container w-100 py-5">
+  <div class="options row mb-4 flex justify-content-start align-items-center">
+    <div class="filter col-12 col-lg-6 col-xl-7 mb-4 mb-md-0">
+      <input type="text" class="w-100 md-w-50 input" placeholder="Buscar por nombre">
+    </div>
+    <div class="actions col-12 col-lg-6 col-xl-5 d-flex justify-content-end">
+      <button class="prod-btn prod-btn-secondary">Marcar defectuosos</button>
+      <button class="prod-btn prod-btn-secondary">Marcar enviados</button>
+      <button class="prod-btn prod-btn-primary" (click)="addProduct()">Agregar Producto</button>
+    </div>
+  </div>
+  <div class="product row align-items-center">
+    <div class="image col-1">
+      <img class="img" src="https://i0.wp.com/plenitudencristopa.org/wp-content/uploads/2015/02/vasija.jpg?fit=449%2C337&ssl=1" alt="image">
+    </div>
+    <div class="info col-9 row">
+      <div class="description col-6">
+        <h1 class="color-white">Vasija de barro 40x50cm</h1>
+        <p>
+          <span class="status">Disponible</span>
+          Hecho a mano
+        </p>
+      </div>
+      <div class="price col-6">
+        <p>Precio:</p>
+        <h2>$25.000</h2>
+      </div>
+    </div>
+    <div class="menu col-2">
+      <h3 (click)="updateProductInfo()" title="Editar Producto">...</h3>
+    </div>
+  </div>
+</div>
