@@ -1,7 +1,9 @@
 <div class="container w-100 py-5">
   <div class="options row mb-4 flex justify-content-start align-items-center">
     <div class="filter col-12 col-lg-6 col-xl-7 mb-4 mb-md-0">
-      <input type="text" class="w-100 md-w-50 input" placeholder="Buscar por nombre">
+      <form [formGroup]="form" class="w-100">
+        <input type="text" formControlName="searchInput" class="w-100 md-w-50 input" placeholder="Buscar por nombre" >
+      </form>
     </div>
     <div class="actions col-12 col-lg-6 col-xl-5 d-flex justify-content-end">
       <button class="prod-btn prod-btn-secondary" [disabled]="!isSomeoneSelected" (click)="markAsDefectives()">Marcar defectuosos</button>

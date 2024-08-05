@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, catchError, map } from 'rxjs';
+import { splitNsName } from '@angular/compiler';
 
 
 @Injectable({
@@ -8,7 +9,7 @@ import { Observable, catchError, map } from 'rxjs';
 })
 export class ProductsService {
   private apiUrl = 'http://localhost:5212/api';
-  
+
   constructor(
     private http: HttpClient,
   ) { }
@@ -16,6 +17,11 @@ export class ProductsService {
   getAllProducts() {
     return this.http
       .get<any>(`${this.apiUrl}/Product`);
+  }
+
+  getProductsByName(name?: string) {
+    return this.http
+      .get<any>(`${this.apiUrl}/Product/search?name=${name}`);
   }
 
   insertProducts(data: any) {

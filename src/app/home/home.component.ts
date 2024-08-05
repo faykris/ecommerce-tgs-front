@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { UpdateProductInfoComponent } from '../modals/update-product-info/update-product-info.component';
 import { AddProductComponent } from '../modals/add-product/add-product.component';
 import { ProductsService } from '../services/products.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmDefectivesComponent } from '../modals/confirm-defectives/confirm-defectives.component';
 import { ConfirmShippingComponent } from '../modals/confirm-shipping/confirm-shipping.component';
+import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -13,6 +15,9 @@ import { ConfirmShippingComponent } from '../modals/confirm-shipping/confirm-shi
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent {
+  form: FormGroup = new FormGroup({
+    searchInput: new FormControl(''),
+  });
   products: any[] = [];
   productIdList: Number[] = [];
   isSomeoneSelected = false;
@@ -25,6 +30,11 @@ export class HomeComponent {
 
   ngOnInit(): void {
     this.loadProducts();
+    this.form.get('searchInput')!.valueChanges.pipe(
+      debounceTime(300), // Espera 300ms después de la última entrada para emitir el valor
+      distinctUntilChanged(), // Emitir sólo si el valor cambió
+      switchMap((value: string) => this.productsService.getProductsByName(value)) // Intercambia el observable del input por el observable de la búsqueda
+    ).subscribe(products => this.products = products);
   }
 
   loadProducts() {
@@ -33,6 +43,8 @@ export class HomeComponent {
       console.log('Productos:', this.products);
     });
   }
+
+
 
   selectProduct(product: any): void {
     if (product.status !== 1) {
