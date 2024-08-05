@@ -11,6 +11,8 @@
   --dark-04: #2E414D;
   --dark-green: #1cbf55;
   --white: #FDFDFD;
+  --orange: #ffaa00;
+  --blue: #00aaff;
 }
 
 
@@ -67,7 +69,7 @@ body {
 }
 
 .prod-modal {
-  border: 1px solid var(--bg-green);
+  border: 1px solid var(--white);
   background-color: var(--bg-black);
   border-radius: 10px;
   .modal-header {
@@ -75,7 +77,10 @@ body {
     border-bottom: 1px solid var(--dark-03);
     padding: 1rem;
     color: var(--bg-green);
-    text-align: center;
+    h2 {
+      width: 100%;
+      text-align: center;
+    }
   }
   .modal-body {
     padding: 1.5rem;

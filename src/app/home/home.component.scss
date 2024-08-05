@@ -11,11 +11,12 @@
     height: 6rem;
     border: 1px solid var(--dark-04);
     border-radius: 10px;
+    transition: all .3s;
+    cursor: pointer;
     .image {
       padding-inline: 1rem auto;
       border-radius: 10px;
       .img {
-        border: 1px solid var(--bg-green);
         border-radius: 10px;
         object-fit: cover;
         width: 5vw;
@@ -25,19 +26,17 @@
     .info {
       display: flex;
       .description {
-        h1 {
+        h2 {
           color: white;
         }
         p {
           color: gray;
           span {
             background-color: transparent;
-            border: 1px solid var(--bg-green);
             padding: .3rem .5rem;
             border-radius: 8px;
             margin-right: .5rem;
             font-size: 12px;
-            color: var(--bg-green);
           }
         }
       }
@@ -51,7 +50,7 @@
           color: gray;
           margin: 0;
         }
-        h2 {
+        h3 {
           color: white;
         }
 
@@ -61,14 +60,47 @@
     }
     .menu {
       h3 {
+        z-index: 3;
         text-align: end;
         color: var(--white);
         cursor: pointer;
       }
     }
+    &:hover {
+      background-color: var(--dark-03);
+    }
   }
 
 }
 
+.available {
+  border: 1px solid var(--bg-green);
+  background-color: transparent;
+  color: var(--bg-green);
+}
 
+.defective {
+  border: 1px solid var(--orange);
+  background-color: transparent;
+  color: var(--orange);
+}
 
+.shipped {
+  border: 1px solid var(--blue);
+  background-color: transparent;
+  color: var(--blue);
+}
+
+.selected {
+  background-color: var(--dark-03);
+  border: 1px solid var(--bg-green) !important;
+}
+
+.disabled-prod {
+  color: gray !important;
+  background-color: var(--dark-02);
+  cursor: default !important;
+  &:hover {
+    background-color: var(--dark-02) !important;
+  }
+}

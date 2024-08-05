@@ -4,26 +4,36 @@
       <input type="text" class="w-100 md-w-50 input" placeholder="Buscar por nombre">
     </div>
     <div class="actions col-12 col-lg-6 col-xl-5 d-flex justify-content-end">
-      <button class="prod-btn prod-btn-secondary">Marcar defectuosos</button>
-      <button class="prod-btn prod-btn-secondary">Marcar enviados</button>
-      <button class="prod-btn prod-btn-primary" (click)="addProduct()">Agregar Producto</button>
+      <button class="prod-btn prod-btn-secondary" [disabled]="!isSomeoneSelected">Marcar defectuosos</button>
+      <button class="prod-btn prod-btn-secondary" [disabled]="!isSomeoneSelected">Marcar enviados</button>
+      <button class="prod-btn prod-btn-primary" (click)="addProduct()">+ Agregar</button>
     </div>
   </div>
-  <div class="product row align-items-center">
+  <div *ngFor="let product of products" class="product row align-items-center mb-3"
+    [ngClass]="product?.status !== 1 ? 'disabled-prod': 
+      selectedIds.includes(product.id) ? 'selected':''" (click)="selectProduct(product)">
     <div class="image col-1">
-      <img class="img" src="https://i0.wp.com/plenitudencristopa.org/wp-content/uploads/2015/02/vasija.jpg?fit=449%2C337&ssl=1" alt="image">
+      <img class="img" [src]="product?.imageUrl" alt="image">
     </div>
     <div class="info col-9 row">
       <div class="description col-6">
-        <h1 class="color-white">Vasija de barro 40x50cm</h1>
+        <h2 class="color-white">{{ product?.name }}</h2>
         <p>
-          <span class="status">Disponible</span>
-          Hecho a mano
+          <span [ngClass]="product?.status === 1 ? 'available': 
+            product?.status === 2 ? 'defective': 
+            product?.status === 3 ? 'shipped': ''">
+            {{ 
+              product?.status === 1 ? 'Disponible':
+               product?.status === 2 ? 'Defectuoso': 
+                product?.status === 3 ? 'Enviado' : '' }}
+          </span>
+          {{ product?.elaboration === 1 ? 'Hecho a mano': 
+            product?.elaboration === 2 ?'Hecho con Máquinas' : ''}}
         </p>
       </div>
       <div class="price col-6">
         <p>Precio:</p>
-        <h2>$25.000</h2>
+        <h3>{{product?.price | currency }}</h3>
       </div>
     </div>
     <div class="menu col-2">
