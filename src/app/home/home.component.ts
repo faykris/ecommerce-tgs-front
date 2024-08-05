@@ -3,6 +3,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UpdateProductInfoComponent } from '../modals/update-product-info/update-product-info.component';
 import { AddProductComponent } from '../modals/add-product/add-product.component';
 import { ProductsService } from '../services/products.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-home',
@@ -16,7 +17,8 @@ export class HomeComponent {
 
   constructor(
     private modalService: NgbModal,
-    private productsService: ProductsService
+    private productsService: ProductsService,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -39,7 +41,7 @@ export class HomeComponent {
     } else {
       this.selectedIds.push(product.id);
     }
-    this.isSomeoneSelected = this.selectedIds.length > 0 ? true : false;
+    this.isSomeoneSelected = this.selectedIds.length > 0;
   }
 
   addProduct() {
@@ -47,17 +49,39 @@ export class HomeComponent {
       size: 'md',
       centered: true,
     });
+
+    addInfoModal.result.then((result: any)=> {
+      if (result) {
+        this.loadProducts();
+        this.openSnackBar(`Se agregaron ${result?.length} nuevos productos`, 'Cerrar');
+      }
+    }) 
   }
 
-  updateProductInfo() {
+  updateProductInfo(product: any) {
     const updateInfoModal = this.modalService.open(UpdateProductInfoComponent, {
       size: 'md', //TAMAÑO DEL MODAL
       centered: true, //CENTRAMOS EL MODAL
     });
+
+    updateInfoModal.componentInstance.product = product;
+
+    updateInfoModal.result.then((result: any)=> {
+      if (result) {
+        this.loadProducts();
+        this.openSnackBar(`Se ha actualizado el producto`, 'Cerrar');
+      }
+    }) 
+    //updateInfoModal.result.then((identification) => {
+
+    //}
+  }
+  openSnackBar(message: string, action: string ) {
+    this.snackBar.open(message, action, {
+      duration: 3000, 
+    });
   }
 
-  // SEARCH.result.then((identification) => {
-
-  // }
+  
   
 }
