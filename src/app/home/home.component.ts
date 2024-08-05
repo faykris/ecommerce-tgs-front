@@ -4,6 +4,8 @@ import { UpdateProductInfoComponent } from '../modals/update-product-info/update
 import { AddProductComponent } from '../modals/add-product/add-product.component';
 import { ProductsService } from '../services/products.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ConfirmDefectivesComponent } from '../modals/confirm-defectives/confirm-defectives.component';
+import { ConfirmShippingComponent } from '../modals/confirm-shipping/confirm-shipping.component';
 
 @Component({
   selector: 'app-home',
@@ -12,7 +14,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class HomeComponent {
   products: any[] = [];
-  selectedIds: Number[] = [];
+  productIdList: Number[] = [];
   isSomeoneSelected = false;
 
   constructor(
@@ -36,12 +38,48 @@ export class HomeComponent {
     if (product.status !== 1) {
       return;
     }
-    if (this.selectedIds.filter(id => id === product.id).length > 0) {
-      this.selectedIds = this.selectedIds.filter(id => id !== product.id);
+    if (this.productIdList.filter(id => id === product.id).length > 0) {
+      this.productIdList = this.productIdList.filter(id => id !== product.id);
     } else {
-      this.selectedIds.push(product.id);
+      this.productIdList.push(product.id);
     }
-    this.isSomeoneSelected = this.selectedIds.length > 0;
+    this.isSomeoneSelected = this.productIdList.length > 0;
+  }
+
+  markAsDefectives() {
+    const confirmDefectivesModal = this.modalService.open(ConfirmDefectivesComponent, {
+      size: 'md',
+      centered: true,
+    });
+    confirmDefectivesModal.componentInstance.productIdList = this.productIdList;
+
+    confirmDefectivesModal.result.then((result: any)=> {
+      if (result) {
+        this.loadProducts();
+        this.openSnackBar(`Se marcaron como defectuosos ${result?.length} productos`, 'Cerrar');
+        this.productIdList = [];
+        this.isSomeoneSelected = false;
+      }
+    });
+
+  }
+
+  markAsShipped() {
+    const confirmShippingModal = this.modalService.open(ConfirmShippingComponent, {
+      size: 'md',
+      centered: true,
+    });
+
+    confirmShippingModal.componentInstance.productIdList = this.productIdList;
+
+    confirmShippingModal.result.then((result: any)=> {
+      if (result) {
+        this.loadProducts();
+        this.openSnackBar(`Se marcaron como enviados ${result?.length} productos`, 'Cerrar');
+        this.productIdList = [];
+        this.isSomeoneSelected = false;
+      }
+    });
   }
 
   addProduct() {
@@ -60,8 +98,8 @@ export class HomeComponent {
 
   updateProductInfo(product: any) {
     const updateInfoModal = this.modalService.open(UpdateProductInfoComponent, {
-      size: 'md', //TAMAÑO DEL MODAL
-      centered: true, //CENTRAMOS EL MODAL
+      size: 'md', 
+      centered: true,
     });
 
     updateInfoModal.componentInstance.product = product;
@@ -71,17 +109,13 @@ export class HomeComponent {
         this.loadProducts();
         this.openSnackBar(`Se ha actualizado el producto`, 'Cerrar');
       }
-    }) 
-    //updateInfoModal.result.then((identification) => {
-
-    //}
+    });
   }
+
   openSnackBar(message: string, action: string ) {
     this.snackBar.open(message, action, {
       duration: 3000, 
     });
   }
-
-  
-  
+ 
 }

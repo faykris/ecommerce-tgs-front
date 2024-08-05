@@ -10,13 +10,17 @@ import { AddProductComponent } from './modals/add-product/add-product.component'
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ConfirmDefectivesComponent } from './modals/confirm-defectives/confirm-defectives.component';
+import { ConfirmShippingComponent } from './modals/confirm-shipping/confirm-shipping.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     UpdateProductInfoComponent,
-    AddProductComponent
+    AddProductComponent,
+    ConfirmDefectivesComponent,
+    ConfirmShippingComponent
   ],
   imports: [
     BrowserModule,

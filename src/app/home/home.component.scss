@@ -7,69 +7,79 @@
       gap: .5rem;
     }
   }
-  .product {
-    height: 6rem;
-    border: 1px solid var(--dark-04);
-    border-radius: 10px;
-    transition: all .3s;
-    cursor: pointer;
-    .image {
-      padding-inline: 1rem auto;
+  .prod-container {
+    height: 80vh;
+    overflow-y: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    .product {
+      width: 99%;
+      height: 6rem;
+      border: 1px solid var(--dark-04);
       border-radius: 10px;
-      .img {
+      transition: all .3s;
+      cursor: pointer;
+      .image {
+        padding-inline: 1rem auto;
         border-radius: 10px;
-        object-fit: cover;
-        width: 5vw;
-        height: 5vw;
-      }
-    }
-    .info {
-      display: flex;
-      .description {
-        h2 {
-          color: white;
+        .img {
+          border-radius: 10px;
+          object-fit: cover;
+          width: 5vw;
+          height: 5vw;
         }
-        p {
-          color: gray;
-          span {
-            background-color: transparent;
-            padding: .3rem .5rem;
-            border-radius: 8px;
-            margin-right: .5rem;
-            font-size: 12px;
+      }
+      .info {
+        display: flex;
+        .description {
+          h2 {
+            color: white;
+            text-overflow: ellipsis;
+          }
+          p {
+            color: gray;
+            span {
+              background-color: transparent;
+              padding: .3rem .5rem;
+              border-radius: 8px;
+              margin-right: .5rem;
+              font-size: 12px;
+            }
           }
         }
-      }
-      .price {
-        text-align: center;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        p {
-          color: gray;
-          margin: 0;
+        .price {
+          text-align: center;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex-direction: column;
+          p {
+            color: gray;
+            margin: 0;
+          }
+          h3 {
+            color: white;
+          }
+  
         }
+        
+        
+      }
+      .menu {
         h3 {
-          color: white;
+          z-index: 3;
+          text-align: end;
+          color: var(--white);
+          cursor: pointer;
         }
-
       }
-      
-      
-    }
-    .menu {
-      h3 {
-        z-index: 3;
-        text-align: end;
-        color: var(--white);
-        cursor: pointer;
+      &:hover {
+        background-color: var(--dark-03);
       }
-    }
-    &:hover {
-      background-color: var(--dark-03);
     }
   }
+  
 
 }
 

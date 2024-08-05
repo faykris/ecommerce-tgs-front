@@ -1,0 +1,17 @@
+<div class="prod-modal">
+    <div class="modal-header">
+      <h2>¡Atención!</h2>
+    </div>
+    <div class="modal-body">
+        <p>
+            ¿Estás seguro de marcar como enviados los productos seleccionados? 
+        </p>
+        <p>
+            Esta acción no podrá ser revertida.
+        </p>
+        <div class="d-flex justify-content-center">
+            <button (click)="onCancel()" class="prod-btn prod-btn-secondary">Cancelar</button>
+            <button (click)="onSubmit()" type="submit" class="prod-btn prod-btn-primary mx-2">Guardar</button>
+        </div>
+    </div>
+</div>

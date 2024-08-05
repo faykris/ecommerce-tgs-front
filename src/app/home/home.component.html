@@ -4,40 +4,43 @@
       <input type="text" class="w-100 md-w-50 input" placeholder="Buscar por nombre">
     </div>
     <div class="actions col-12 col-lg-6 col-xl-5 d-flex justify-content-end">
-      <button class="prod-btn prod-btn-secondary" [disabled]="!isSomeoneSelected">Marcar defectuosos</button>
-      <button class="prod-btn prod-btn-secondary" [disabled]="!isSomeoneSelected">Marcar enviados</button>
+      <button class="prod-btn prod-btn-secondary" [disabled]="!isSomeoneSelected" (click)="markAsDefectives()">Marcar defectuosos</button>
+      <button class="prod-btn prod-btn-secondary" [disabled]="!isSomeoneSelected" (click)="markAsShipped()">Marcar enviados</button>
       <button class="prod-btn prod-btn-primary" (click)="addProduct()">+ Agregar</button>
     </div>
   </div>
-  <div *ngFor="let product of products" class="product row align-items-center mb-3"
-    [ngClass]="product?.status !== 1 ? 'disabled-prod': 
-      selectedIds.includes(product.id) ? 'selected':''" (click)="selectProduct(product)">
-    <div class="image col-1">
-      <img class="img" [src]="product?.imageUrl" alt="image">
-    </div>
-    <div class="info col-9 row">
-      <div class="description col-6">
-        <h2 class="color-white">{{ product?.name }}</h2>
-        <p>
-          <span [ngClass]="product?.status === 1 ? 'available': 
-            product?.status === 2 ? 'defective': 
-            product?.status === 3 ? 'shipped': ''">
-            {{ 
-              product?.status === 1 ? 'Disponible':
-               product?.status === 2 ? 'Defectuoso': 
-                product?.status === 3 ? 'Enviado' : '' }}
-          </span>
-          {{ product?.elaboration === 1 ? 'Hecho a mano': 
-            product?.elaboration === 2 ?'Hecho con Máquinas' : ''}}
-        </p>
+  <div class="prod-container w-100">
+    <div *ngFor="let product of products" class="product row align-items-center mb-3"
+      [ngClass]="product?.status !== 1 ? 'disabled-prod': 
+      productIdList.includes(product.id) ? 'selected':''" (click)="selectProduct(product)">
+      <div class="image col-1">
+        <img class="img" [src]="product?.imageUrl" alt="image">
       </div>
-      <div class="price col-6">
-        <p>Precio:</p>
-        <h3>{{product?.price | currency }}</h3>
+      <div class="info col-10 row">
+        <div class="description col-8">
+          <h2 class="color-white">{{ product?.name }}</h2>
+          <p>
+            <span [ngClass]="product?.status === 1 ? 'available': 
+              product?.status === 2 ? 'defective': 
+              product?.status === 3 ? 'shipped': ''">
+              {{ 
+                product?.status === 1 ? 'Disponible':
+                product?.status === 2 ? 'Defectuoso': 
+                  product?.status === 3 ? 'Enviado' : '' }}
+            </span>
+            {{ product?.elaboration === 1 ? 'Hecho a mano': 
+              product?.elaboration === 2 ?'Hecho con maquinaria' : ''}}
+          </p>
+        </div>
+        <div class="price col-4">
+          <p>Precio:</p>
+          <h3>{{product?.price | currency }}</h3>
+        </div>
       </div>
-    </div>
-    <div class="menu col-2">
-      <h3 (click)="updateProductInfo(product)" title="Editar Producto">...</h3>
+      <div class="menu col-1">
+        <h3 (click)="updateProductInfo(product)" title="Editar Producto">...</h3>
+      </div>
     </div>
   </div>
+  
 </div>
