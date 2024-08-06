@@ -14,6 +14,7 @@ import { ConfirmDefectivesComponent } from './modals/confirm-defectives/confirm-
 import { ConfirmShippingComponent } from './modals/confirm-shipping/confirm-shipping.component';
 import { LoginComponent } from './login/login.component';
 import { TokenInterceptor } from './services/token.interceptor';
+import { RegisterEmployeeComponent } from './modals/register-employee/register-employee.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { TokenInterceptor } from './services/token.interceptor';
     AddProductComponent,
     ConfirmDefectivesComponent,
     ConfirmShippingComponent,
-    LoginComponent
+    LoginComponent,
+    RegisterEmployeeComponent
   ],
   imports: [
     BrowserModule,

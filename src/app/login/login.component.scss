@@ -1,0 +1,31 @@
+.container {
+  min-height: 100vh;
+  div h1 {
+    font-size: 5em;
+  }
+  .form {
+    width: 30vw;
+    background-color: var(--dark-01);
+    border-radius: 10px;
+    border: 1px solid var(--white) ;
+  }
+}
+
+.title {
+  color: var(--bg-green);
+  text-align: center;
+}
+
+span {
+  transition: all .3s;
+}
+
+.portfolio {
+  text-decoration: none;
+  transition: all .3s;
+}
+
+span:hover, .portfolio:hover {
+  color: var(--bg-green) !important;
+  cursor: pointer;
+}

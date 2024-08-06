@@ -38,4 +38,9 @@ export class EmployeesService {
   getToken(): string | null {
     return localStorage.getItem(this.tokenKey);
   }
+
+  insertEmployee(data: any) {
+    return this.http
+      .post(`${this.apiUrl}/Employee/register`, data);
+  }
 }

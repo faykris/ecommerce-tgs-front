@@ -1,15 +1,39 @@
-<form [formGroup]="form" (ngSubmit)="login()" class="w-50">
+<div class="container d-flex justify-content-center align-items-center flex-column">
+  <div>
+    <h1 class="text-success">Your Inventory</h1>
+  </div>
+  <div>
+    <h4 class="text-white">Tu sitio para gestionar tus productos</h4>
+  </div>
+  <form [formGroup]="form" (ngSubmit)="login()" class="form p-3">
+    <div class="w-100 mb-3">
+      <h3 class="title">Inicio de sesión</h3>
+    </div>
     <div class="w-100 mb-3">
       <input type="text" class="w-100 md-w-50 input" placeholder="Correo" formControlName="email" maxlength="100">
       <div *ngIf="hasError('name', 'required')" class="text-danger">
         Email es requerido.
       </div>
+    </div>
+    <div class="w-100 mb-3">
       <input type="password" class="w-100 md-w-50 input" placeholder="Contraseña" formControlName="password" maxlength="100" />
       <div *ngIf="hasError('name', 'required')" class="text-danger">
         password es requerido.
       </div>
-      <div class="d-flex justify-content-end">
-        <button type="submit" class="prod-btn prod-btn-primary mx-2" [disabled]="form.invalid">Guardar</button>
-      </div>
     </div>
-</form>
+
+    <div class="w-100 d-flex justify-content-between align-items-center">
+      <span class="text-success" (click)="register()">Regístrate Aquí</span>
+      <button type="submit" class="prod-btn prod-btn-primary" [disabled]="form.invalid">Continuar</button>
+    </div>
+
+  </form>
+  <div>
+    <h5 class="text-white my-5">
+      Creado por 
+      <a href="https://faykris-portfolio.netlify.app" 
+        class="portfolio text-success" target="_blank">Cristian Pinzón</a>
+    </h5>
+  </div>
+</div>
+
