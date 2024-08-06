@@ -11,7 +11,10 @@
         </p>
         <div class="d-flex justify-content-center">
             <button (click)="onCancel()" class="prod-btn prod-btn-secondary">Cancelar</button>
-            <button (click)="onSubmit()" type="submit" class="prod-btn prod-btn-primary mx-2">Guardar</button>
+            <button (click)="onSubmit()" type="submit" class="prod-btn prod-btn-primary mx-2">
+                <p *ngIf="!isLoadingShipping" class="m-0">Continuar</p>
+                <img *ngIf="isLoadingShipping" class="loading" src="https://i.gifer.com/origin/b4/b4d657e7ef262b88eb5f7ac021edda87.gif" alt="loader">
+            </button>
         </div>
     </div>
 </div>

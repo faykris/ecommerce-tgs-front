@@ -46,7 +46,10 @@
       
       <div class="d-flex justify-content-end">
         <button type="button" class="prod-btn prod-btn-secondary" (click)="onCancel()">Cancelar</button>
-        <button type="submit" class="prod-btn prod-btn-primary mx-2" [disabled]="form.invalid">Guardar</button>
+        <button type="submit" class="prod-btn prod-btn-primary mx-2" [disabled]="form.invalid">
+          <p *ngIf="!isLoadingSave" class="m-0">Guardar</p>
+          <img *ngIf="isLoadingSave" class="loading" src="https://i.gifer.com/origin/b4/b4d657e7ef262b88eb5f7ac021edda87.gif" alt="loader">
+        </button>
       </div>
     </form>
   </div>

@@ -9,7 +9,8 @@ import { ProductsService } from 'src/app/services/products.service';
 })
 export class ConfirmShippingComponent {
   @Input() productIdList: number[] = [];
-  
+  isLoadingShipping = false;
+
   constructor(
     private productsService: ProductsService,
     private activeModal: NgbActiveModal
@@ -21,13 +22,17 @@ export class ConfirmShippingComponent {
   }
 
   onSubmit() {
+    this.isLoadingShipping = true;
     this.productsService.markShippedProducts({ productIdList: this.productIdList })
       .subscribe({
         next: (response) => {
-          console.log('Productos enviados!', response);
+          this.isLoadingShipping = false;
           this.activeModal.close(this.productIdList);
         },
-        error: (error) => console.error('Error al enviar datos', error)
+        error: (error) => {
+          this.isLoadingShipping = false;
+          console.error('Error al enviar datos', error);
+        }
       });
   }
 }

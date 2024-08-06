@@ -15,7 +15,15 @@
       <button class="prod-btn prod-btn-primary" (click)="addProduct()">+ Agregar</button>
     </div>
   </div>
-  <div class="prod-container w-100">
+  <div *ngIf="isLoadingProducts" class="w-100 d-flex justify-content-center align-items-center p-6">
+    <img class="loading" 
+        src="https://i.gifer.com/origin/b4/b4d657e7ef262b88eb5f7ac021edda87.gif" alt="loader">
+  </div>
+  <div *ngIf="!isLoadingProducts && products.length === 0" 
+    class="w-100 d-flex justify-content-center align-items-center p-6">
+    <h5 class="text-white">No hay productos registrados</h5>
+  </div>
+  <div *ngIf="!isLoadingProducts && products.length > 0" class="prod-container w-100">
     <div *ngFor="let product of products" class="product row align-items-center mb-3"
       [ngClass]="product?.status !== 1 ? 'disabled-prod': 
       productIdList.includes(product.id) ? 'selected':''" (click)="selectProduct(product)">

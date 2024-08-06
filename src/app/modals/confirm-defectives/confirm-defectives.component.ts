@@ -9,6 +9,7 @@ import { ProductsService } from 'src/app/services/products.service';
 })
 export class ConfirmDefectivesComponent {
   @Input() productIdList: number[] = [];
+  isLoadingDefectives = false;
   
   constructor(
     private productsService: ProductsService,
@@ -21,13 +22,17 @@ export class ConfirmDefectivesComponent {
   }
 
   onSubmit() {
+    this.isLoadingDefectives = true;
     this.productsService.markDefectivesProducts({ productIdList: this.productIdList })
       .subscribe({
         next: (response) => {
-          console.log('Productos marcados como defectuosos!', response);
+          this.isLoadingDefectives = false;
           this.activeModal.close(this.productIdList);
         },
-        error: (error) => console.error('Error al enviar datos', error)
+        error: (error) => {
+          this.isLoadingDefectives = false;
+          console.error('Error al enviar datos', error);
+        }
       });
   }
 }

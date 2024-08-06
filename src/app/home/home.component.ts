@@ -23,6 +23,7 @@ export class HomeComponent {
   products: any[] = [];
   productIdList: Number[] = [];
   isSomeoneSelected = false;
+  isLoadingProducts = true;
 
   constructor(
     private modalService: NgbModal,
@@ -47,10 +48,16 @@ export class HomeComponent {
   }
 
   loadProducts() {
-    this.productsService.getAllProducts().subscribe((data: any[]) => {
-      this.products = data;
-      console.log('Productos:', this.products);
-    });
+    this.productsService.getAllProducts().subscribe({
+      next: (data) => {
+        this.products = data;
+        this.isLoadingProducts = false;
+      },
+      error: (error) => {
+        this.isLoadingProducts = false;
+        console.error('Error al enviar datos', error)
+      }
+    });  
   }
 
   selectProduct(product: any): void {

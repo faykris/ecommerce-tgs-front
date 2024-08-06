@@ -24,7 +24,10 @@
 
     <div class="w-100 d-flex justify-content-between align-items-center">
       <span class="text-success" (click)="register()">Regístrate Aquí</span>
-      <button type="submit" class="prod-btn prod-btn-primary" [disabled]="form.invalid">Continuar</button>
+      <button type="submit" class="prod-btn prod-btn-primary" [disabled]="form.invalid">
+        <p *ngIf="!isLoadingLogin" class="m-0">Continuar</p>
+        <img *ngIf="isLoadingLogin" class="loading" src="https://i.gifer.com/origin/b4/b4d657e7ef262b88eb5f7ac021edda87.gif" alt="loader">
+      </button>
     </div>
 
   </form>

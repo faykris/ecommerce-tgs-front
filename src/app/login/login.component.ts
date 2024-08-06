@@ -17,6 +17,7 @@ export class LoginComponent {
     password: new FormControl(null, [Validators.required]),
   });
   isError = false;
+  isLoadingLogin = false;
 
   constructor(
     private employeeService: EmployeesService,
@@ -50,13 +51,16 @@ export class LoginComponent {
   }
 
   login(): void {
+    this.isLoadingLogin = true;
     this.isError = false;
     this.employeeService.login(this.form.get('email')?.value, this.form.get('password')?.value).subscribe({
       next: () => {
+        this.isLoadingLogin = false;
         this.router.navigate(['/home'])
       },
       error: err => {
         console.error('Login failed', err);
+        this.isLoadingLogin = false;
         this.isError = true;
       }
     });

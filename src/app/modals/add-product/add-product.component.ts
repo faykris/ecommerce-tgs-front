@@ -16,6 +16,7 @@ export class AddProductComponent {
     imageUrl: new FormControl(null),
     quantity: new FormControl(null, [Validators.required, Validators.min(1)]),
   });
+  isLoadingSave = false;
   
   constructor(
     private productsService: ProductsService,
@@ -36,16 +37,18 @@ export class AddProductComponent {
   }
 
   async onSubmit() {
-    console.log(this.form.controls)
+    this.isLoadingSave = true;
     if (this.form.valid) {
       await this.productsService.insertProducts(this.form.value).subscribe({
         next: (response) => {
-          console.log('Datos enviados!', response)
+          this.isLoadingSave = false;
           this.activeModal.close(response);
         },
-        error: (error) => console.error('Error al enviar datos', error)
+        error: (error) => {
+          this.isLoadingSave = false;
+          console.error('Error al enviar datos', error);
+        }
       });
     }
-
   }
 }

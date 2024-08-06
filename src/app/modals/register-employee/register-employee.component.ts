@@ -15,6 +15,7 @@ export class RegisterEmployeeComponent {
     password: new FormControl(null, [Validators.required]),
     phone: new FormControl(null),
   });
+  isLoadingRegister = false;
   
   constructor(
     private employeeService: EmployeesService,
@@ -34,15 +35,18 @@ export class RegisterEmployeeComponent {
     this.activeModal.close(false);
   }
 
-  async onSubmit() {
-    console.log(this.form.controls)
+  onSubmit() {
+    this.isLoadingRegister = true;
     if (this.form.valid) {
-      await this.employeeService.insertEmployee(this.form.value).subscribe({
+      this.employeeService.insertEmployee(this.form.value).subscribe({
         next: (response) => {
-          console.log('Datos enviados!', response);
+          this.isLoadingRegister = false;
           this.activeModal.close(response);
         },
-        error: (error) => console.error('Error al enviar datos', error)
+        error: (error) => {
+          this.isLoadingRegister = false;
+          console.error('Error al enviar datos', error)
+        }
       });
     }
 
