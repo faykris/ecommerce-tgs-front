@@ -16,6 +16,7 @@ export class UpdateProductInfoComponent {
     elaboration: new FormControl(null, [Validators.required]),
     imageUrl: new FormControl(null),
   });
+  isLoadingUpdate = false;
 
   constructor(
     private productsService: ProductsService,
@@ -46,15 +47,18 @@ export class UpdateProductInfoComponent {
     this.activeModal.close(false);
   }
 
-  async onSubmit() {
-    console.log(this.form.controls)
+  onSubmit() {
+    this.isLoadingUpdate = true;
     if (this.form.valid) {
-      await this.productsService.updateInfoProduct(this.product?.id, this.form.value).subscribe({
+      this.productsService.updateInfoProduct(this.product?.id, this.form.value).subscribe({
         next: (response) => {
-          console.log('Datos actualizados!', response)
+          this.isLoadingUpdate = false;
           this.activeModal.close(response);
         },
-        error: (error) => console.error('Error al actualizar datos', error)
+        error: (error) => {
+          this.isLoadingUpdate = false;
+          console.error('Error al actualizar datos', error);
+        }
       });
     }
   }
