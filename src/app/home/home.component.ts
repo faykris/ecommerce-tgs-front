@@ -8,6 +8,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmDefectivesComponent } from '../modals/confirm-defectives/confirm-defectives.component';
 import { ConfirmShippingComponent } from '../modals/confirm-shipping/confirm-shipping.component';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs';
+import { EmployeesService } from '../services/employees.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -25,16 +27,23 @@ export class HomeComponent {
   constructor(
     private modalService: NgbModal,
     private productsService: ProductsService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private employeeService: EmployeesService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
     this.loadProducts();
     this.form.get('searchInput')!.valueChanges.pipe(
-      debounceTime(300), // Espera 300ms después de la última entrada para emitir el valor
-      distinctUntilChanged(), // Emitir sólo si el valor cambió
-      switchMap((value: string) => this.productsService.getProductsByName(value)) // Intercambia el observable del input por el observable de la búsqueda
+      debounceTime(300),
+      distinctUntilChanged(),
+      switchMap((value: string) => this.productsService.getProductsByName(value))
     ).subscribe(products => this.products = products);
+  }
+
+  logout(): void {
+    this.employeeService.logout();
+    this.router.navigate(['/login']);
   }
 
   loadProducts() {
@@ -43,8 +52,6 @@ export class HomeComponent {
       console.log('Productos:', this.products);
     });
   }
-
-
 
   selectProduct(product: any): void {
     if (product.status !== 1) {

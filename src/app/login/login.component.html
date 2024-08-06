@@ -1,0 +1,15 @@
+<form [formGroup]="form" (ngSubmit)="login()" class="w-50">
+    <div class="w-100 mb-3">
+      <input type="text" class="w-100 md-w-50 input" placeholder="Correo" formControlName="email" maxlength="100">
+      <div *ngIf="hasError('name', 'required')" class="text-danger">
+        Email es requerido.
+      </div>
+      <input type="password" class="w-100 md-w-50 input" placeholder="Contraseña" formControlName="password" maxlength="100" />
+      <div *ngIf="hasError('name', 'required')" class="text-danger">
+        password es requerido.
+      </div>
+      <div class="d-flex justify-content-end">
+        <button type="submit" class="prod-btn prod-btn-primary mx-2" [disabled]="form.invalid">Guardar</button>
+      </div>
+    </div>
+</form>

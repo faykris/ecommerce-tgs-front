@@ -7,11 +7,13 @@ import { HomeComponent } from './home/home.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { UpdateProductInfoComponent } from './modals/update-product-info/update-product-info.component';
 import { AddProductComponent } from './modals/add-product/add-product.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ConfirmDefectivesComponent } from './modals/confirm-defectives/confirm-defectives.component';
 import { ConfirmShippingComponent } from './modals/confirm-shipping/confirm-shipping.component';
+import { LoginComponent } from './login/login.component';
+import { TokenInterceptor } from './services/token.interceptor';
 
 @NgModule({
   declarations: [
@@ -20,7 +22,8 @@ import { ConfirmShippingComponent } from './modals/confirm-shipping/confirm-ship
     UpdateProductInfoComponent,
     AddProductComponent,
     ConfirmDefectivesComponent,
-    ConfirmShippingComponent
+    ConfirmShippingComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -31,7 +34,9 @@ import { ConfirmShippingComponent } from './modals/confirm-shipping/confirm-ship
     BrowserAnimationsModule,
     MatSnackBarModule
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

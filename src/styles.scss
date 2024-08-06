@@ -75,7 +75,7 @@ body {
   border-radius: 12px;
   transition: all .3s;
   border: none;
-  font-size: 12px;
+  font-size: 13px;
 }
 
 .prod-btn-primary {
@@ -98,7 +98,7 @@ body {
   }
   &:disabled {
     border: 1px solid var(--dark-04);
-    background-color: transparent;
+    background-color: var(--bg-black);
     color: var(--dark-04);
   }
 }
