@@ -28,6 +28,11 @@
     </div>
 
   </form>
+  <div *ngIf="isError">
+    <h6 class="text-danger">
+      Correo y/o contraseña incorrectas
+    </h6>
+  </div>
   <div>
     <h5 class="text-white my-5">
       Creado por 

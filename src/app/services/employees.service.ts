@@ -2,12 +2,13 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EmployeesService {
-  private apiUrl = 'http://localhost:5212/api';
+  private apiUrl = environment.apiUrl;
   private tokenKey = 'authToken';
   private loggedIn = new BehaviorSubject<boolean>(false);
 

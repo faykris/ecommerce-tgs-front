@@ -16,6 +16,7 @@ export class LoginComponent {
     email: new FormControl(null, [Validators.required]),
     password: new FormControl(null, [Validators.required]),
   });
+  isError = false;
 
   constructor(
     private employeeService: EmployeesService,
@@ -49,9 +50,15 @@ export class LoginComponent {
   }
 
   login(): void {
+    this.isError = false;
     this.employeeService.login(this.form.get('email')?.value, this.form.get('password')?.value).subscribe({
-      next: () => this.router.navigate(['/home']),
-      error: err => alert('Login failed')
+      next: () => {
+        this.router.navigate(['/home'])
+      },
+      error: err => {
+        console.error('Login failed', err);
+        this.isError = true;
+      }
     });
   }
 }
