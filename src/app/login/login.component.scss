@@ -4,7 +4,7 @@
     font-size: 5em;
   }
   .form {
-    width: 30vw;
+    width: 23rem;
     background-color: var(--dark-01);
     border-radius: 10px;
     border: 1px solid var(--white) ;
@@ -34,4 +34,26 @@ span:hover, .portfolio:hover {
   width: 15px;
   height: 15px;
   margin: 0 1.2rem;
+}
+
+@media screen and (max-width: 980px){
+  .container {
+    min-height: 100vh;
+    div h1 {
+      font-size: 3em;
+    }
+  }
+}
+
+@media screen and (max-width: 480px){
+  .container {
+    min-height: 100vh;
+    div h1 {
+      font-size: 2.5em;
+    }
+    .form {
+      width: 90vw;
+    }
+  
+  }
 }
