@@ -3,13 +3,13 @@
   <button class="prod-btn prod-btn-primary" (click)="logout()">Salir</button>
 </div>
 <div class="container w-100 py-5">
-  <div class="options row mb-4 flex justify-content-start align-items-center">
-    <div class="filter col-12 col-lg-6 mb-4 mb-md-0">
-      <form [formGroup]="form" class="w-100">
+  <div class="options row mb-4 flex justify-content-start align-items-center mx-1">
+    <div class="filter col-12 col-lg-6 mb-md-0">
+      <form [formGroup]="form" class="w-100 my-3 my-lg-0">
         <input type="text" formControlName="searchInput" class="w-100 md-w-50 input" placeholder="Buscar por nombre" >
       </form>
     </div>
-    <div class="actions col-12 col-lg-6 d-flex justify-content-end">
+    <div class="actions col-12 col-lg-6 d-flex justify-content-end mb-3 mb-lg-0">
       <button class="prod-btn prod-btn-secondary" [disabled]="!isSomeoneSelected" (click)="markAsDefectives()">Marcar defectuosos</button>
       <button class="prod-btn prod-btn-secondary" [disabled]="!isSomeoneSelected" (click)="markAsShipped()">Marcar enviados</button>
       <button class="prod-btn prod-btn-primary" (click)="addProduct()">+ Agregar</button>

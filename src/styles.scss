@@ -80,7 +80,8 @@ body {
 
 .prod-btn-primary {
   background-color: var(--bg-green);
-  color: white;
+  color: var(--white);
+  border: 1px solid transparent;
   &:hover {
     background-color: var(--dark-green);
   }
@@ -93,6 +94,7 @@ body {
 .prod-btn-secondary {
   background-color: var(--dark-04);
   color: var(--white);
+  border: 1px solid transparent;
   &:hover {
     background-color: var(--dark-03);
   }
