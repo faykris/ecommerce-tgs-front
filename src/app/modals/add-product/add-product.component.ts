@@ -36,10 +36,10 @@ export class AddProductComponent {
     this.activeModal.close(false);
   }
 
-  async onSubmit() {
+  onSubmit() {
     this.isLoadingSave = true;
     if (this.form.valid) {
-      await this.productsService.insertProducts(this.form.value).subscribe({
+      this.productsService.insertProducts(this.form.value).subscribe({
         next: (response) => {
           this.isLoadingSave = false;
           this.activeModal.close(response);
@@ -47,6 +47,9 @@ export class AddProductComponent {
         error: (error) => {
           this.isLoadingSave = false;
           console.error('Error al enviar datos', error);
+          if (error.status === 401) {
+            this.activeModal.close(error);
+          }
         }
       });
     }

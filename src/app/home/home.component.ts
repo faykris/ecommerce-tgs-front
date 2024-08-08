@@ -39,7 +39,19 @@ export class HomeComponent {
       debounceTime(300),
       distinctUntilChanged(),
       switchMap((value: string) => this.productsService.getProductsByName(value))
-    ).subscribe(products => this.products = products);
+    ).subscribe({
+      next: (data) => {
+        this.products = data;
+        this.isLoadingProducts = false;
+      },
+      error: (error) => {
+        this.isLoadingProducts = false;
+        console.error('Error al enviar datos', error)
+        if (error.status === 401) {
+          this.logout();
+        }  
+      }
+    });
   }
 
   logout(): void {
@@ -55,7 +67,10 @@ export class HomeComponent {
       },
       error: (error) => {
         this.isLoadingProducts = false;
-        console.error('Error al enviar datos', error)
+        console.error('Error al enviar datos', error);
+        if (error.status === 401) {
+          this.logout();
+        }  
       }
     });  
   }
@@ -81,6 +96,9 @@ export class HomeComponent {
 
     confirmDefectivesModal.result.then((result: any)=> {
       if (result) {
+        if (result?.status === 401) {
+          this.logout();
+        }  
         this.loadProducts();
         this.openSnackBar(`Se marcaron como defectuosos ${result?.length} productos`, 'Cerrar');
         this.productIdList = [];
@@ -100,6 +118,9 @@ export class HomeComponent {
 
     confirmShippingModal.result.then((result: any)=> {
       if (result) {
+        if (result?.status === 401) {
+          this.logout();
+        } 
         this.loadProducts();
         this.openSnackBar(`Se marcaron como enviados ${result?.length} productos`, 'Cerrar');
         this.productIdList = [];
@@ -116,6 +137,9 @@ export class HomeComponent {
 
     addInfoModal.result.then((result: any)=> {
       if (result) {
+        if (result?.status === 401) {
+          this.logout();
+        }
         this.loadProducts();
         this.openSnackBar(`Se agregaron ${result?.length} nuevos productos`, 'Cerrar');
       }
@@ -132,6 +156,9 @@ export class HomeComponent {
 
     updateInfoModal.result.then((result: any)=> {
       if (result) {
+        if (result?.status === 401) {
+          this.logout();
+        }
         this.loadProducts();
         this.openSnackBar(`Se ha actualizado el producto`, 'Cerrar');
       }

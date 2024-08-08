@@ -58,6 +58,9 @@ export class UpdateProductInfoComponent {
         error: (error) => {
           this.isLoadingUpdate = false;
           console.error('Error al actualizar datos', error);
+          if (error.status === 401) {
+            this.activeModal.close(error);
+          }
         }
       });
     }
