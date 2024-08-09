@@ -28,7 +28,7 @@
       [ngClass]="product?.status !== 1 ? 'disabled-prod': 
       productIdList.includes(product.id) ? 'selected':''" (click)="selectProduct(product)">
       <div class="image col-4 col-md-2 col-lg-1">
-        <img class="img" [src]="product?.imageUrl" alt="image">
+        <img class="img" [src]="product?.imageUrl" (error)="onImageError($event)" alt="image">
       </div>
       <div class="info col-8 col-md-9 col-lg-10 row mx-0">
         <div class="description col-12 col-md-8">

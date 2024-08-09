@@ -24,6 +24,7 @@ export class HomeComponent {
   productIdList: Number[] = [];
   isSomeoneSelected = false;
   isLoadingProducts = true;
+  fallbackImageUrl = 'assets/images/box-2-64.png';
 
   constructor(
     private modalService: NgbModal,
@@ -73,6 +74,11 @@ export class HomeComponent {
         }  
       }
     });  
+  }
+
+  onImageError(event: Event): void {
+    const target = event.target as HTMLImageElement;
+    target.src = this.fallbackImageUrl;
   }
 
   selectProduct(product: any): void {
