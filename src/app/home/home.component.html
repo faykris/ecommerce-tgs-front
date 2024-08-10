@@ -1,11 +1,17 @@
-<div class="navbar bg-success w-100 px-3 py-1 d-flex justify-content-between">
-  <h4 class="text-white">Your Inventary</h4>
-  <button class="prod-btn prod-btn-primary" (click)="logout()">Salir</button>
+<div class="navbar bg-success w-100 px-3 py-1 d-flex justify-content-between align-items-center">
+  <div class="d-flex">
+    <img src="assets/images/box-2-64.png" alt="hero-icon">
+    <h4 class="text-white m-0">Your Inventary</h4>
+  </div>
+  <button class="prod-btn prod-btn-primary" (click)="logout()" title="Salir">
+    <img src="assets/images/exit-48.png" alt="logout">
+  </button>
 </div>
 <div class="container w-100 py-5">
   <div class="options row mb-4 flex justify-content-start align-items-center mx-1">
     <div class="filter col-12 col-lg-6 mb-md-0">
       <form [formGroup]="form" class="w-100 my-3 my-lg-0">
+        <img src="assets/images/search-5-48.png" alt="search-icon">
         <input type="text" formControlName="searchInput" class="w-100 md-w-50 input" placeholder="Buscar por nombre" >
       </form>
     </div>

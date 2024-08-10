@@ -1,8 +1,39 @@
+.navbar {
+  div {
+    img {
+      width: 30px;
+      margin-right: 5px;
+    }
+  }
+  button {
+    padding: .5rem .7rem;
+    img {
+      width: 15px;
+    }
+  }
+}
+
+
 .container {
   .options {
     min-height: 3.5rem;
     border: 1px solid var(--dark-04);
     border-radius: 10px;
+    .filter form {
+      position: relative;
+      img {
+        position: absolute;
+        z-index: 2;
+        width: 25px;
+        top: .45rem;
+        left: .3rem;
+        opacity: .5;
+      }
+      .input {
+        padding-left: 2.2rem;
+      }
+
+    }
     .actions {
       gap: .5rem;
     }
