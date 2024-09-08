@@ -10,9 +10,43 @@
 <div class="container w-100 py-5">
   <div class="options row mb-4 flex justify-content-start align-items-center mx-1">
     <div class="filter col-12 col-lg-6 mb-md-0">
-      <form [formGroup]="form" class="w-100 my-3 my-lg-0">
-        <img src="assets/images/search-5-48.png" alt="search-icon">
-        <input type="text" formControlName="searchInput" class="w-100 md-w-50 input" placeholder="Buscar por nombre" >
+      <form [formGroup]="form" class="row my-3 my-lg-0">
+<!--        <img src="assets/images/search-5-48.png" alt="search-icon">-->
+<!--        <input type="text" formControlName="searchInput" class="w-100 md-w-50 input" placeholder="Buscar por nombre" >-->
+        <div class="col-12 col-md-6">
+          <select class="input w-100" formControlName="filter" (change)="onFilterChange($event)">
+            <option [ngValue]="1" class="text-secondary">Todos los productos</option>
+            <option [ngValue]="2" class="text-secondary">Por Categoria</option>
+            <option [ngValue]="3" class="text-secondary">Por Estado</option>
+            <option [ngValue]="4" class="text-secondary">Por Inventario</option>
+          </select>
+        </div>
+        <div *ngIf="form.get('filter')?.value === 2" class="col-12 col-md-6">
+          <select class="input w-100"  formControlName="category" (change)="onOptionChange($event,'category')"
+                  [ngClass]="isNullSelected(form,'category') ? 'text-secondary':''">
+            <option [value]="null" class="text-secondary">Seleccionar*</option>
+            <option value="Casuales" class="text-white">Casuales</option>
+            <option value="Deportivos" class="text-white">Deportivos</option>
+            <option value="Elegantes" class="text-white">Elegantes</option>
+          </select>
+        </div>
+        <div *ngIf="form.get('filter')?.value === 3" class="col-12 col-md-6">
+          <select class="input w-100" formControlName="status" (change)="onOptionChange($event,'status')"
+                  [ngClass]="isNullSelected(form,'status') ? 'text-secondary':''">
+            <option [value]="null" class="text-secondary">Seleccionar*</option>
+            <option [value]="1" class="text-white">Disponibles</option>
+            <option [value]="2" class="text-white">Enviados</option>
+            <option [value]="3" class="text-white">Defectuosos</option>
+          </select>
+        </div>
+        <div *ngIf="form.get('filter')?.value === 4" class="col-12 col-md-6">
+          <select class="input w-100" formControlName="inventory" (change)="onOptionChange($event,'inventory')"
+                  [ngClass]="isNullSelected(form,'inventory') ? 'text-secondary':''">
+            <option [value]="null" class="text-secondary">Seleccionar*</option>
+            <option *ngFor="let inventory of inventories" [value]="inventory.id"
+                    class="text-white">{{inventory?.name}}</option>
+          </select>
+        </div>
       </form>
     </div>
     <div class="actions col-12 col-lg-6 d-flex justify-content-end mb-3 mb-lg-0">
@@ -53,7 +87,7 @@
               {{ product?.category }}
             </p>
             <h6 class="text-secondary">
-              {{ getInventoryFromProduct(product) }}
+              {{ product.inventory.name }}
             </h6>
           </div>
 

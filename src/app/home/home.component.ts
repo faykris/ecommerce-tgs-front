@@ -1,17 +1,17 @@
 import { Component } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl } from '@angular/forms';
 import { UpdateProductInfoComponent } from '../modals/update-product-info/update-product-info.component';
 import { AddProductComponent } from '../modals/add-product/add-product.component';
 import { ProductsService } from '../services/products.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmDefectivesComponent } from '../modals/confirm-defectives/confirm-defectives.component';
 import { ConfirmShippingComponent } from '../modals/confirm-shipping/confirm-shipping.component';
-import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs';
 import { UsersService } from '../services/users.service';
 import { Router } from '@angular/router';
 import {InventoriesService} from "../services/inventories.service";
 import {AddInventoryComponent} from "../modals/add-inventory/add-inventory.component";
+import {isNullSelected} from "../utils/tools.utils";
 
 @Component({
   selector: 'app-home',
@@ -20,7 +20,11 @@ import {AddInventoryComponent} from "../modals/add-inventory/add-inventory.compo
 })
 export class HomeComponent {
   form: FormGroup = new FormGroup({
-    searchInput: new FormControl(''),
+    //searchInput: new FormControl(''),
+    filter: new FormControl(1),
+    inventory: new FormControl(null),
+    category: new FormControl(null),
+    status: new FormControl(null),
   });
   user: any = null;
   products: any[] = [];
@@ -44,23 +48,23 @@ export class HomeComponent {
     this.loadUser();
     this.loadInventories();
     this.loadProducts();
-    this.form.get('searchInput')!.valueChanges.pipe(
-      debounceTime(300),
-      distinctUntilChanged(),
-      switchMap((value: string) => this.productsService.getProductsByName(value))
-    ).subscribe({
-      next: (data) => {
-        this.products = data;
-        this.isLoadingProducts = false;
-      },
-      error: (error) => {
-        this.isLoadingProducts = false;
-        console.error('Error al enviar datos', error)
-        if (error.status === 401) {
-          this.logout();
-        }
-      }
-    });
+    // this.form.get('searchInput')!.valueChanges.pipe(
+    //   debounceTime(300),
+    //   distinctUntilChanged(),
+    //   switchMap((value: string) => this.productsService.getProductsByName(value))
+    // ).subscribe({
+    //   next: (data) => {
+    //     this.products = data;
+    //     this.isLoadingProducts = false;
+    //   },
+    //   error: (error) => {
+    //     this.isLoadingProducts = false;
+    //     console.error('Error al enviar datos', error)
+    //     if (error.status === 401) {
+    //       this.logout();
+    //     }
+    //   }
+    // });
   }
 
   loadUser(): void {
@@ -108,7 +112,6 @@ export class HomeComponent {
     this.inventoriesService.getAllInventories().subscribe({
       next: (data) => {
         this.inventories = data;
-        console.log(this.inventories);
       },
       error: (error) => {
         this.isLoadingProducts = false;
@@ -243,15 +246,80 @@ export class HomeComponent {
     });
   }
 
-  getInventoryFromProduct(product: any) {
-    return this.inventories.filter(
-      inventory => inventory.id === product?.inventory?.id
-    )[0]?.name;
+  isSelectedProduct(id: number) {
+    return this.selectedProducts.filter(product => product.id === id).length > 0;
   }
 
-  isSelectedProduct(id: number) {
-    // selectedProducts.includes(id)
-    return this.selectedProducts.filter(product => product.id === id).length > 0;
+  protected readonly isNullSelected = isNullSelected;
+
+  onFilterChange(event: any) {
+    const selectedValue = Number(event.target.value.split(': ')[1]);
+    console.log('target seleccionado es:');
+    if (selectedValue === 1) {
+      this.form.controls['category'].reset();
+      this.form.controls['status'].reset();
+      this.form.controls['inventory'].reset();
+      this.loadProducts();
+    }
+  }
+
+  onOptionChange(event: any, filter: string): void {
+    this.isLoadingProducts = true;
+    let selectedValue = event.target.value;
+
+    switch (filter) {
+      case 'category':
+        this.productsService.getProductsByCategory(selectedValue).subscribe({
+          next: (result: any) => {
+            if (result) {
+              this.form.controls['status'].reset();
+              this.form.controls['inventory'].reset();
+              this.products = result;
+              this.isLoadingProducts = false;
+            }
+          },
+          error: (error: any) => {
+            this.isLoadingProducts = false;
+            console.log('Error al cargar por categoria:', error);
+          }
+        });
+        break;
+      case 'status':
+        this.productsService.getProductsByStatus(selectedValue).subscribe({
+          next: (result: any) => {
+            if (result) {
+              this.form.controls['category'].reset();
+              this.form.controls['inventory'].reset();
+              this.products = result;
+              this.isLoadingProducts = false;
+            }
+          },
+          error: (error: any) => {
+            this.isLoadingProducts = false;
+            console.log('Error al cargar por categoria:', error);
+          }
+        });
+        break;
+      case 'inventory':
+        this.productsService.getProductsByInventory(selectedValue).subscribe({
+          next: (result: any) => {
+            if (result) {
+              this.form.controls['category'].reset();
+              this.form.controls['status'].reset();
+              this.products = result;
+              this.isLoadingProducts = false;
+            }
+          },
+          error: (error: any) => {
+            this.isLoadingProducts = false;
+            console.log('Error al cargar por categoria:', error);
+          }
+        });
+        break;
+      default:
+        this.isLoadingProducts = false;
+        break;
+    }
 
   }
 }
