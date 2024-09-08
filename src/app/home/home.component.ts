@@ -33,6 +33,7 @@ export class HomeComponent {
   isSomeoneSelected = false;
   isLoadingProducts = true;
   fallbackImageUrl = 'assets/images/box-2-64.png';
+  showMenu = false;
 
   constructor(
     private modalService: NgbModal,
@@ -66,6 +67,10 @@ export class HomeComponent {
     //   }
     // });
   }
+  setShowMenu() {
+    this.showMenu = !this.showMenu;
+  }
+
 
   loadUser(): void {
     const email = this.usersService.getUserInfo();
@@ -254,8 +259,8 @@ export class HomeComponent {
 
   onFilterChange(event: any) {
     const selectedValue = Number(event.target.value.split(': ')[1]);
-    console.log('target seleccionado es:');
     if (selectedValue === 1) {
+      this.isLoadingProducts = true;
       this.form.controls['category'].reset();
       this.form.controls['status'].reset();
       this.form.controls['inventory'].reset();

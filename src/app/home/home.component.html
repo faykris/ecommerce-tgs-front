@@ -1,11 +1,33 @@
+<div *ngIf="showMenu" class="bg-shadow">
+  <div class="side-bar bg-success">
+    <div class="close">
+      <img src="assets/icons/icon-close.svg" (click)="setShowMenu()" alt="close-icon">
+    </div>
+    <ul class="menu-list">
+      <li>
+        Productos
+      </li>
+      <li>
+        Órdenes
+      </li>
+      <li>
+        Usuarios
+      </li>
+      <li (click)="logout()">
+        Salir
+      </li>
+    </ul>
+  </div>
+</div>
+
 <div class="navbar bg-success w-100 px-3 py-1 d-flex justify-content-between align-items-center">
   <div class="d-flex">
     <img src="assets/images/box-2-64.png" alt="hero-icon">
     <h4 class="text-white m-0">Your Inventory</h4>
   </div>
-  <button class="prod-btn prod-btn-primary" (click)="logout()" title="Salir">
-    <img src="assets/images/exit-48.png" alt="logout">
-  </button>
+
+  <img src="assets/icons/icon-menu.svg" (click)="setShowMenu()" alt="menu-icon">
+
 </div>
 <div class="container w-100 py-5">
   <div class="options row mb-4 flex justify-content-start align-items-center mx-1">
