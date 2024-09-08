@@ -1,24 +1,25 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { EmployeesService } from 'src/app/services/employees.service';
+import { UsersService } from 'src/app/services/users.service';
 
 @Component({
-  selector: 'app-register-employee',
-  templateUrl: './register-employee.component.html',
-  styleUrls: ['./register-employee.component.scss']
+  selector: 'app-register-user',
+  templateUrl: './register-user.component.html',
+  styleUrls: ['./register-user.component.scss']
 })
-export class RegisterEmployeeComponent {
+export class RegisterUserComponent {
   form: FormGroup = new FormGroup({
-    name: new FormControl(null, [Validators.required]),
-    email: new FormControl(null, [Validators.required]),
+    firstname: new FormControl(null, [Validators.required]),
+    lastname: new FormControl(null, [Validators.required]),
+    username: new FormControl(null, [Validators.required]),
     password: new FormControl(null, [Validators.required]),
     phone: new FormControl(null),
   });
   isLoadingRegister = false;
-  
+
   constructor(
-    private employeeService: EmployeesService,
+    private userService: UsersService,
     private activeModal: NgbActiveModal
   ) {}
 
@@ -38,7 +39,7 @@ export class RegisterEmployeeComponent {
   onSubmit() {
     this.isLoadingRegister = true;
     if (this.form.valid) {
-      this.employeeService.insertEmployee(this.form.value).subscribe({
+      this.userService.addUser(this.form.value).subscribe({
         next: (response) => {
           this.isLoadingRegister = false;
           this.activeModal.close(response);

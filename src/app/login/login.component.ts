@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { EmployeesService } from '../services/employees.service';
+import { UsersService } from '../services/users.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { RegisterEmployeeComponent } from '../modals/register-employee/register-employee.component';
+import { RegisterUserComponent } from '../modals/register-user/register-user.component';
 
 @Component({
   selector: 'app-login',
@@ -13,14 +13,14 @@ import { RegisterEmployeeComponent } from '../modals/register-employee/register-
 })
 export class LoginComponent {
   form: FormGroup = new FormGroup({
-    email: new FormControl(null, [Validators.required]),
+    username: new FormControl(null, [Validators.required]),
     password: new FormControl(null, [Validators.required]),
   });
   isError = false;
   isLoadingLogin = false;
 
   constructor(
-    private employeeService: EmployeesService,
+    private usersService: UsersService,
     private router: Router,
     private modalService: NgbModal,
     private snackBar: MatSnackBar
@@ -32,7 +32,7 @@ export class LoginComponent {
   }
 
   register(): void {
-    const registerModal = this.modalService.open(RegisterEmployeeComponent, {
+    const registerModal = this.modalService.open(RegisterUserComponent, {
       size: 'md',
       centered: true,
     });
@@ -46,14 +46,14 @@ export class LoginComponent {
 
   openSnackBar(message: string, action: string ) {
     this.snackBar.open(message, action, {
-      duration: 3000, 
+      duration: 3000,
     });
   }
 
   login(): void {
     this.isLoadingLogin = true;
     this.isError = false;
-    this.employeeService.login(this.form.get('email')?.value, this.form.get('password')?.value).subscribe({
+    this.usersService.login(this.form.get('username')?.value, this.form.get('password')?.value).subscribe({
       next: () => {
         this.isLoadingLogin = false;
         this.router.navigate(['/home'])

@@ -1,0 +1,22 @@
+<div class="prod-modal">
+  <div class="modal-header">
+    <h2>Agregar un inventario</h2>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="w-100">
+      <div class="w-100 mb-3">
+        <input type="text" class="w-100 md-w-50 input" placeholder="Nombre*" formControlName="name" maxlength="100">
+        <div *ngIf="hasError('name', 'required')" class="text-danger">
+          Nombre es requerido.
+        </div>
+      </div>
+      <div class="d-flex justify-content-end">
+        <button type="button" class="prod-btn prod-btn-secondary" (click)="onCancel()">Cancelar</button>
+        <button type="submit" class="prod-btn prod-btn-primary mx-2" [disabled]="form.invalid">
+          <p *ngIf="!isLoadingSave" class="m-0">Guardar</p>
+          <img *ngIf="isLoadingSave" class="loading" src="https://i.gifer.com/origin/b4/b4d657e7ef262b88eb5f7ac021edda87.gif" alt="loader">
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

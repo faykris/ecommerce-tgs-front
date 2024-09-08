@@ -3,11 +3,12 @@ import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { jwtDecode } from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root'
 })
-export class EmployeesService {
+export class UsersService {
   private apiUrl = environment.apiUrl;
   private tokenKey = 'authToken';
   private loggedIn = new BehaviorSubject<boolean>(false);
@@ -21,8 +22,8 @@ export class EmployeesService {
     return this.loggedIn.asObservable();
   }
 
-  login(email: string, password: string): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/Employee/login`, { email, password })
+  login(username: string, password: string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/auth/login`, { username, password })
       .pipe(
         tap(response => {
           localStorage.setItem(this.tokenKey, response.token);
@@ -40,8 +41,33 @@ export class EmployeesService {
     return localStorage.getItem(this.tokenKey);
   }
 
-  insertEmployee(data: any) {
+  addUser(data: any) {
     return this.http
-      .post(`${this.apiUrl}/Employee/register`, data);
+      .post(`${this.apiUrl}/auth/register`, data);
+  }
+
+  getUser(email: string): Observable<any> {
+    return this.http
+      .get<any>(`${this.apiUrl}/user?email=${email}`);
+  }
+
+  setToken(token: string): void {
+    localStorage.setItem(this.tokenKey, token);
+  }
+
+  getDecodedToken() {
+    const token = this.getToken();
+    if (token) {
+      return jwtDecode(token);
+    }
+    return null;
+  }
+
+  getUserInfo() {
+    const decodedToken = this.getDecodedToken();
+    if (decodedToken) {
+      return decodedToken['sub'];
+    }
+    return null;
   }
 }

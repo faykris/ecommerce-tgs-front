@@ -1,20 +1,49 @@
 <div class="prod-modal">
     <div class="modal-header">
-      <h2>¡Atención!</h2>
+      <h2>Crear orden de envío</h2>
     </div>
     <div class="modal-body">
-        <p>
-            ¿Estás seguro de marcar como enviados los productos seleccionados? 
-        </p>
-        <p>
-            Esta acción no podrá ser revertida.
-        </p>
-        <div class="d-flex justify-content-center">
-            <button (click)="onCancel()" class="prod-btn prod-btn-secondary">Cancelar</button>
-            <button (click)="onSubmit()" type="submit" class="prod-btn prod-btn-primary mx-2">
-                <p *ngIf="!isLoadingShipping" class="m-0">Continuar</p>
-                <img *ngIf="isLoadingShipping" class="loading" src="https://i.gifer.com/origin/b4/b4d657e7ef262b88eb5f7ac021edda87.gif" alt="loader">
-            </button>
+      <div class="product-container">
+        <div *ngFor="let product of products" class="product align-items-center mb-3">
+          <div class="image">
+            <img class="img" [src]="product?.imageUrl" (error)="onImageError($event)" alt="image">
+          </div>
+          <div class="info">
+            <div class="title">
+              <h3 class="color-white">{{ product?.name }}</h3>
+              <div class="d-flex justify-content-between">
+                <p class="m-0">{{product.category}}</p>
+                <p class="m-0">{{product.inventory.name}}</p>
+              </div>
+            </div>
+            <div class="price">
+              <p class="m-0 text-secondary">Precio</p>
+              <h3>{{product.price | currency}}</h3>
+            </div>
+          </div>
         </div>
+      </div>
+      <div class="w-100 mb-3">
+        <h4 class="text-end">Total: <span class="total-price">{{ getTotalPrice() | currency }}</span></h4>
+      </div>
+      <form [formGroup]="form" (ngSubmit)="onSubmit()" class="w-100">
+        <div class="w-100 mb-3">
+          <input type="text" class="w-100 md-w-50 input" placeholder="Agregar descripción*" formControlName="description" maxlength="100">
+          <div *ngIf="hasError('description', 'required')" class="text-danger">
+            Descripción de la orden es requerida.
+          </div>
+        </div>
+      </form>
+      <p class="text-warning text-center">
+        ¿Estás seguro de envíar los productos seleccionados? Esta acción no podrá ser revertida.
+      </p>
+
+      <div class="d-flex justify-content-center">
+          <button (click)="onCancel()" class="prod-btn prod-btn-secondary">Cancelar</button>
+          <button (click)="onSubmit()" type="submit" class="prod-btn prod-btn-primary mx-2" [disabled]="form.invalid">
+              <p *ngIf="!isLoadingShipping" class="m-0">Guardar</p>
+              <img *ngIf="isLoadingShipping" class="loading" src="https://i.gifer.com/origin/b4/b4d657e7ef262b88eb5f7ac021edda87.gif" alt="loader">
+          </button>
+      </div>
     </div>
 </div>

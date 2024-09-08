@@ -1,21 +1,27 @@
 <div class="prod-modal">
     <div class="modal-header">
-      <h2>Registrar empleado</h2>
+      <h2>Registro de usuario</h2>
     </div>
     <div class="modal-body">
       <form [formGroup]="form" (ngSubmit)="onSubmit()" class="w-100">
         <div class="w-100 mb-3">
-            <input type="text" class="w-100 md-w-50 input" placeholder="Nombre*" formControlName="name" maxlength="100">
-            <div *ngIf="hasError('name', 'required')" class="text-danger">
-                Nombre es requerido.
-            </div>
+          <input type="text" class="w-100 md-w-50 input" placeholder="Nombre*" formControlName="firstname" maxlength="100">
+          <div *ngIf="hasError('firstname', 'required')" class="text-danger">
+              Nombre es requerido.
+          </div>
+        </div>
+        <div class="w-100 mb-3">
+          <input type="text" class="w-100 md-w-50 input" placeholder="Apellido*" formControlName="lastname" maxlength="100">
+          <div *ngIf="hasError('lastname', 'required')" class="text-danger">
+            Apellido es requerido.
+          </div>
         </div>
         <div class="w-100 mb-3">
             <input type="text" class="w-100 md-w-50 input" placeholder="Celular" formControlName="phone" maxlength="20">
         </div>
         <div class="w-100 mb-3">
-            <input type="email" class="w-100 md-w-50 input" placeholder="Correo*" formControlName="email" maxlength="100">
-            <div *ngIf="hasError('email', 'required')" class="text-danger">
+            <input type="email" class="w-100 md-w-50 input" placeholder="Correo*" formControlName="username" maxlength="100">
+            <div *ngIf="hasError('username', 'required')" class="text-danger">
                 Correo es requerido.
             </div>
         </div>
@@ -24,7 +30,7 @@
             <div *ngIf="hasError('password', 'required')" class="text-danger">
                 Contraseña es requerida.
             </div>
-        </div> 
+        </div>
         <div class="d-flex justify-content-end">
           <button type="button" class="prod-btn prod-btn-secondary" (click)="onCancel()">Cancelar</button>
           <button type="submit" class="prod-btn prod-btn-primary mx-2" [disabled]="form.invalid">

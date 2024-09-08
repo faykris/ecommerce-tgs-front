@@ -3,3 +3,53 @@
     height: 15px;
     margin: 0 1.2rem;
 }
+
+.total-price {
+  color: var(--bg-green);
+  font-weight: bold;
+}
+
+.product-container {
+  width: 100%;
+  height: 35vh;
+  overflow-y: auto;
+  margin-bottom: 1.5rem;
+  .product {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    min-height: 5rem;
+    border-radius: 10px;
+    border: 1px solid var(--dark-blue);
+    .image {
+      padding-inline: 1rem;
+      border-radius: 10px;
+      .img {
+        border-radius: 10px;
+        object-fit: cover;
+        width: 65px;
+        height: 65px;
+      }
+    }
+    .info {
+      display: flex;
+      width: 100%;
+      .title {
+        width: 70%;
+
+        h3 {
+          color: white;
+          text-overflow: ellipsis;
+        }
+
+        p {
+          color: gray;
+        }
+      }
+      .price {
+        width: 30%;
+        text-align: center;
+      }
+    }
+  }
+}

@@ -8,8 +8,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmDefectivesComponent } from '../modals/confirm-defectives/confirm-defectives.component';
 import { ConfirmShippingComponent } from '../modals/confirm-shipping/confirm-shipping.component';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs';
-import { EmployeesService } from '../services/employees.service';
+import { UsersService } from '../services/users.service';
 import { Router } from '@angular/router';
+import {InventoriesService} from "../services/inventories.service";
+import {AddInventoryComponent} from "../modals/add-inventory/add-inventory.component";
 
 @Component({
   selector: 'app-home',
@@ -20,8 +22,10 @@ export class HomeComponent {
   form: FormGroup = new FormGroup({
     searchInput: new FormControl(''),
   });
+  user: any = null;
   products: any[] = [];
-  productIdList: Number[] = [];
+  inventories: any[] = [];
+  selectedProducts: any[] = [];
   isSomeoneSelected = false;
   isLoadingProducts = true;
   fallbackImageUrl = 'assets/images/box-2-64.png';
@@ -29,12 +33,16 @@ export class HomeComponent {
   constructor(
     private modalService: NgbModal,
     private productsService: ProductsService,
+    private inventoriesService: InventoriesService,
+    private usersService: UsersService,
     private snackBar: MatSnackBar,
-    private employeeService: EmployeesService,
+    private employeeService: UsersService,
     private router: Router
   ) {}
 
   ngOnInit(): void {
+    this.loadUser();
+    this.loadInventories();
     this.loadProducts();
     this.form.get('searchInput')!.valueChanges.pipe(
       debounceTime(300),
@@ -50,9 +58,29 @@ export class HomeComponent {
         console.error('Error al enviar datos', error)
         if (error.status === 401) {
           this.logout();
-        }  
+        }
       }
     });
+  }
+
+  loadUser(): void {
+    const email = this.usersService.getUserInfo();
+    if (email) {
+      this.usersService.getUser(email).subscribe({
+        next: (data) => {
+          this.user = data;
+          console.log('user:', this.user);
+          this.isLoadingProducts = false;
+        },
+        error: (error) => {
+          this.isLoadingProducts = false;
+          console.error('Error al enviar datos', error);
+          if (error.status === 401) {
+            this.logout();
+          }
+        }
+      })
+    }
   }
 
   logout(): void {
@@ -71,9 +99,25 @@ export class HomeComponent {
         console.error('Error al enviar datos', error);
         if (error.status === 401) {
           this.logout();
-        }  
+        }
       }
-    });  
+    });
+  }
+
+  loadInventories() {
+    this.inventoriesService.getAllInventories().subscribe({
+      next: (data) => {
+        this.inventories = data;
+        console.log(this.inventories);
+      },
+      error: (error) => {
+        this.isLoadingProducts = false;
+        console.error('Error al enviar datos', error);
+        if (error.status === 401) {
+          this.logout();
+        }
+      }
+    })
   }
 
   onImageError(event: Event): void {
@@ -85,12 +129,12 @@ export class HomeComponent {
     if (product.status !== 1) {
       return;
     }
-    if (this.productIdList.filter(id => id === product.id).length > 0) {
-      this.productIdList = this.productIdList.filter(id => id !== product.id);
+    if (this.selectedProducts.filter(p => p.id === product.id).length > 0) {
+      this.selectedProducts = this.selectedProducts.filter(p => p.id !== product.id);
     } else {
-      this.productIdList.push(product.id);
+      this.selectedProducts.push(product);
     }
-    this.isSomeoneSelected = this.productIdList.length > 0;
+    this.isSomeoneSelected = this.selectedProducts.length > 0;
   }
 
   markAsDefectives() {
@@ -98,16 +142,16 @@ export class HomeComponent {
       size: 'md',
       centered: true,
     });
-    confirmDefectivesModal.componentInstance.productIdList = this.productIdList;
+    confirmDefectivesModal.componentInstance.products = this.selectedProducts;
 
     confirmDefectivesModal.result.then((result: any)=> {
       if (result) {
         if (result?.status === 401) {
           this.logout();
-        }  
+        }
         this.loadProducts();
         this.openSnackBar(`Se marcaron como defectuosos ${result?.length} productos`, 'Cerrar');
-        this.productIdList = [];
+        this.selectedProducts = [];
         this.isSomeoneSelected = false;
       }
     });
@@ -116,32 +160,35 @@ export class HomeComponent {
 
   markAsShipped() {
     const confirmShippingModal = this.modalService.open(ConfirmShippingComponent, {
-      size: 'md',
+      size: 'xl',
       centered: true,
     });
 
-    confirmShippingModal.componentInstance.productIdList = this.productIdList;
+    confirmShippingModal.componentInstance.products = this.selectedProducts;
+    confirmShippingModal.componentInstance.userId = this.user.id;
 
     confirmShippingModal.result.then((result: any)=> {
       if (result) {
         if (result?.status === 401) {
           this.logout();
-        } 
+        }
         this.loadProducts();
         this.openSnackBar(`Se marcaron como enviados ${result?.length} productos`, 'Cerrar');
-        this.productIdList = [];
+        this.selectedProducts = [];
         this.isSomeoneSelected = false;
       }
     });
   }
 
   addProduct() {
-    const addInfoModal = this.modalService.open(AddProductComponent, {
+    const addProductModal = this.modalService.open(AddProductComponent, {
       size: 'md',
       centered: true,
     });
 
-    addInfoModal.result.then((result: any)=> {
+    addProductModal.componentInstance.inventories = this.inventories;
+
+    addProductModal.result.then((result: any)=> {
       if (result) {
         if (result?.status === 401) {
           this.logout();
@@ -149,12 +196,31 @@ export class HomeComponent {
         this.loadProducts();
         this.openSnackBar(`Se agregaron ${result?.length} nuevos productos`, 'Cerrar');
       }
-    }) 
+    });
+  }
+
+  addInventory() {
+    const addInventoryModal = this.modalService.open(AddInventoryComponent, {
+      size: 'md',
+      centered: true,
+    });
+
+    addInventoryModal.componentInstance.userId = this.user.id;
+
+    addInventoryModal.result.then((result: any)=> {
+      if (result) {
+        if (result?.status === 401) {
+          this.logout();
+        }
+        this.loadInventories();
+        this.openSnackBar(`Se agregó un nuevo inventario`, 'Cerrar');
+      }
+    });
   }
 
   updateProductInfo(product: any) {
     const updateInfoModal = this.modalService.open(UpdateProductInfoComponent, {
-      size: 'md', 
+      size: 'md',
       centered: true,
     });
 
@@ -173,8 +239,19 @@ export class HomeComponent {
 
   openSnackBar(message: string, action: string ) {
     this.snackBar.open(message, action, {
-      duration: 3000, 
+      duration: 3000,
     });
   }
- 
+
+  getInventoryFromProduct(product: any) {
+    return this.inventories.filter(
+      inventory => inventory.id === product?.inventory?.id
+    )[0]?.name;
+  }
+
+  isSelectedProduct(id: number) {
+    // selectedProducts.includes(id)
+    return this.selectedProducts.filter(product => product.id === id).length > 0;
+
+  }
 }

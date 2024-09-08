@@ -48,6 +48,7 @@ $inventory-web-theme: mat.define-light-theme((
   --white: #FDFDFD;
   --orange: #ffaa00;
   --blue: #00aaff;
+  --dark-blue: #0086c3;
 }
 
 
@@ -91,6 +92,21 @@ body {
     color: var(--bg-green);
   }
 }
+
+.prod-btn-tertiary {
+  background-color: var(--blue);
+  color: var(--white);
+  border: 1px solid transparent;
+  &:hover {
+    background-color: var(--dark-blue);
+  }
+  &:disabled {
+    border: 1px solid var(--blue);
+    background-color: transparent;
+    color: var(--dark-04);
+  }
+}
+
 .prod-btn-secondary {
   background-color: var(--dark-04);
   color: var(--white);

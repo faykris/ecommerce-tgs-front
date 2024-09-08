@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, Input} from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ProductsService } from 'src/app/services/products.service';
@@ -9,22 +9,25 @@ import { ProductsService } from 'src/app/services/products.service';
   styleUrls: ['./add-product.component.scss']
 })
 export class AddProductComponent {
+  @Input() inventories: any[] = [];
   form: FormGroup = new FormGroup({
     name: new FormControl(null, [Validators.required]),
+    description: new FormControl(null, [Validators.required]),
     price: new FormControl(null, [Validators.required, Validators.min(50)]),
-    elaboration: new FormControl(null, [Validators.required]),
     imageUrl: new FormControl(null),
+    category: new FormControl(null, [Validators.required]),
+    inventoryId: new FormControl(null, [Validators.required]),
     quantity: new FormControl(null, [Validators.required, Validators.min(1)]),
   });
   isLoadingSave = false;
-  
+
   constructor(
     private productsService: ProductsService,
     private activeModal: NgbActiveModal
   ) {}
 
-  isNullSelected() {
-    return this.form.get('elaboration')?.value === null;
+  isNullSelected(formControlName: string) {
+    return this.form.get(formControlName)?.value === null;
   }
 
   hasError(controlName: string, errorName: string): boolean | undefined {

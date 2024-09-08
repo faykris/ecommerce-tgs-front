@@ -14,31 +14,31 @@ export class ProductsService {
 
   getAllProducts() {
     return this.http
-      .get<any>(`${this.apiUrl}/Product`);
+      .get<any>(`${this.apiUrl}/product/all`);
   }
 
   getProductsByName(name?: string) {
     return this.http
-      .get<any>(`${this.apiUrl}/Product/search?name=${name}`);
+      .get<any>(`${this.apiUrl}/product/search?name=${name}`);
   }
 
   insertProducts(data: any) {
     return this.http
-      .post(`${this.apiUrl}/Product`, data);
+      .post(`${this.apiUrl}/product`, data);
   }
 
-  updateInfoProduct(id: number, data: any) {
+  updateInfoProduct(productCode: string, data: any) {
     return this.http
-      .put(`${this.apiUrl}/Product/info/${id}`, data);
+      .put(`${this.apiUrl}/product/${productCode}`, data);
   }
 
   markDefectivesProducts(data: any) {
     return this.http
-      .put(`${this.apiUrl}/Product/defectives`, data);
+      .put(`${this.apiUrl}/product/defectives`, data);
   }
 
   markShippedProducts(data: any) {
     return this.http
-      .put(`${this.apiUrl}/Product/shipping`, data);
+      .put(`${this.apiUrl}/product/shipping`, data);
   }
 }
