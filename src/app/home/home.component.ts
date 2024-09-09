@@ -11,7 +11,8 @@ import { UsersService } from '../services/users.service';
 import { Router } from '@angular/router';
 import {InventoriesService} from "../services/inventories.service";
 import {AddInventoryComponent} from "../modals/add-inventory/add-inventory.component";
-import {isNullSelected} from "../utils/tools.utils";
+import {getStringMonth, isNullSelected} from "../utils/tools.utils";
+import {OptionsService} from "../services/options.service";
 
 @Component({
   selector: 'app-home',
@@ -20,7 +21,6 @@ import {isNullSelected} from "../utils/tools.utils";
 })
 export class HomeComponent {
   form: FormGroup = new FormGroup({
-    //searchInput: new FormControl(''),
     filter: new FormControl(1),
     inventory: new FormControl(null),
     category: new FormControl(null),
@@ -29,11 +29,13 @@ export class HomeComponent {
   user: any = null;
   products: any[] = [];
   inventories: any[] = [];
+  options: any[] = [];
   selectedProducts: any[] = [];
   isSomeoneSelected = false;
   isLoadingProducts = true;
   fallbackImageUrl = 'assets/images/box-2-64.png';
-  showMenu = false;
+  promoDate: Date | null = null;
+  promoPercentage: number | null = null;
 
   constructor(
     private modalService: NgbModal,
@@ -41,36 +43,32 @@ export class HomeComponent {
     private inventoriesService: InventoriesService,
     private usersService: UsersService,
     private snackBar: MatSnackBar,
-    private employeeService: UsersService,
+    private userService: UsersService,
+    private optionsService: OptionsService,
     private router: Router
   ) {}
 
   ngOnInit(): void {
+    this.loadOptions()
     this.loadUser();
     this.loadInventories();
     this.loadProducts();
-    // this.form.get('searchInput')!.valueChanges.pipe(
-    //   debounceTime(300),
-    //   distinctUntilChanged(),
-    //   switchMap((value: string) => this.productsService.getProductsByName(value))
-    // ).subscribe({
-    //   next: (data) => {
-    //     this.products = data;
-    //     this.isLoadingProducts = false;
-    //   },
-    //   error: (error) => {
-    //     this.isLoadingProducts = false;
-    //     console.error('Error al enviar datos', error)
-    //     if (error.status === 401) {
-    //       this.logout();
-    //     }
-    //   }
-    // });
-  }
-  setShowMenu() {
-    this.showMenu = !this.showMenu;
   }
 
+  loadOptions(): void {
+    this.optionsService.getAllOptions().subscribe({
+      next: (data) => {
+        this.options = data;
+        this.isExistOrdersPromo();
+      },
+      error: (error) => {
+        console.error('Error al enviar datos', error);
+        if (error.status === 401) {
+          this.logout();
+        }
+      }
+    });
+  }
 
   loadUser(): void {
     const email = this.usersService.getUserInfo();
@@ -93,7 +91,7 @@ export class HomeComponent {
   }
 
   logout(): void {
-    this.employeeService.logout();
+    this.userService.logout();
     this.router.navigate(['/login']);
   }
 
@@ -195,6 +193,7 @@ export class HomeComponent {
     });
 
     addProductModal.componentInstance.inventories = this.inventories;
+    addProductModal.componentInstance.promoDate = this.promoDate;
 
     addProductModal.result.then((result: any)=> {
       if (result) {
@@ -325,6 +324,19 @@ export class HomeComponent {
         this.isLoadingProducts = false;
         break;
     }
-
   }
+
+  isExistOrdersPromo() {
+    if (this.options[0]?.timeValue &&
+      new Date(this.options[0]?.timeValue) > new Date()) {
+      this.promoDate = new Date(this.options[0]?.timeValue);
+      this.promoPercentage = this.options[0]?.integerValue;
+      console.log(this.promoDate)
+      return true;
+    }
+    return false;
+  }
+
+
+  protected readonly getStringMonth = getStringMonth;
 }

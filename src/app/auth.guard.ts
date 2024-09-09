@@ -10,13 +10,16 @@ import { UsersService } from './services/users.service';
 })
 export class AuthGuard implements CanActivate {
 
-  constructor(private employeeService: UsersService, private router: Router) { }
+  constructor(
+    private usersService: UsersService,
+    private router: Router
+  ) { }
 
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean> {
-    return this.employeeService.isLoggedIn.pipe(
+    return this.usersService.isLoggedIn.pipe(
       take(1),
       map((isLoggedIn: boolean) => {
         if (!isLoggedIn) {

@@ -16,6 +16,10 @@ import { LoginComponent } from './login/login.component';
 import { TokenInterceptor } from './services/token.interceptor';
 import { RegisterUserComponent } from './modals/register-user/register-user.component';
 import { AddInventoryComponent } from './modals/add-inventory/add-inventory.component';
+import { NavbarComponent } from './navbar/navbar.component';
+import { ReportsComponent } from './reports/reports.component';
+import { UsersComponent } from './users/users.component';
+import { OrdersComponent } from './orders/orders.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +32,10 @@ import { AddInventoryComponent } from './modals/add-inventory/add-inventory.comp
     LoginComponent,
     RegisterUserComponent,
     AddInventoryComponent,
+    NavbarComponent,
+    ReportsComponent,
+    UsersComponent,
+    OrdersComponent,
   ],
   imports: [
     BrowserModule,

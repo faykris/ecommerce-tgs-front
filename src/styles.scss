@@ -143,3 +143,132 @@ body {
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+// General styles:
+.container {
+  .options {
+    min-height: 3.5rem;
+    border: 1px solid var(--dark-04);
+    border-radius: 10px;
+    .filter form {
+      position: relative;
+      img {
+        position: absolute;
+        z-index: 2;
+        width: 25px;
+        top: .45rem;
+        left: .3rem;
+        opacity: .5;
+      }
+    }
+    .actions {
+      gap: .5rem;
+    }
+  }
+  .prod-container {
+    height: 80vh;
+    overflow-y: auto;
+    justify-content: center;
+    .product {
+      margin: 0 .2rem;
+      position: relative;
+      min-height: 6rem;
+      border: 1px solid var(--dark-04);
+      border-radius: 10px;
+      transition: all .3s;
+      cursor: pointer;
+      .image {
+        padding-inline: 1rem;
+        border-radius: 10px;
+        .img {
+          border-radius: 10px;
+          object-fit: cover;
+          width: 70px;
+          height: 70px;
+        }
+      }
+      .info {
+        display: flex;
+        .description {
+          h2 {
+            color: white;
+            text-overflow: ellipsis;
+          }
+          p {
+            color: gray;
+            span {
+              background-color: transparent;
+              padding: .3rem .5rem;
+              border-radius: 8px;
+              margin-right: .5rem;
+              font-size: 12px;
+            }
+          }
+        }
+        .price {
+          text-align: center;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex-direction: column;
+          p {
+            color: gray;
+            margin: 0;
+          }
+          h3 {
+            color: white;
+          }
+
+        }
+
+
+      }
+      .menu {
+        h3 {
+          z-index: 3;
+          text-align: end;
+          color: var(--white);
+          cursor: pointer;
+        }
+      }
+      &:hover {
+        background-color: var(--dark-03);
+      }
+    }
+  }
+
+
+}
+
+.available {
+  border: 1px solid var(--bg-green);
+  background-color: transparent;
+  color: var(--bg-green);
+}
+
+.defective {
+  border: 1px solid var(--orange);
+  background-color: transparent;
+  color: var(--orange);
+}
+
+.shipped {
+  border: 1px solid var(--blue);
+  background-color: transparent;
+  color: var(--blue);
+}
+
+.selected {
+  background-color: var(--dark-03);
+  border: 1px solid var(--bg-green) !important;
+}
+
+.disabled-prod {
+  color: gray !important;
+  background-color: var(--dark-02);
+  cursor: default !important;
+  &:hover {
+    background-color: var(--dark-02) !important;
+  }
+}

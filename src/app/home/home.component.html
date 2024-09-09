@@ -1,40 +1,13 @@
-<div *ngIf="showMenu" class="bg-shadow">
-  <div class="side-bar bg-success">
-    <div class="close">
-      <img src="assets/icons/icon-close.svg" (click)="setShowMenu()" alt="close-icon">
-    </div>
-    <ul class="menu-list">
-      <li>
-        Productos
-      </li>
-      <li>
-        Órdenes
-      </li>
-      <li>
-        Usuarios
-      </li>
-      <li (click)="logout()">
-        Salir
-      </li>
-    </ul>
-  </div>
-</div>
-
-<div class="navbar bg-success w-100 px-3 py-1 d-flex justify-content-between align-items-center">
-  <div class="d-flex">
-    <img src="assets/images/box-2-64.png" alt="hero-icon">
-    <h4 class="text-white m-0">Your Inventory</h4>
-  </div>
-
-  <img src="assets/icons/icon-menu.svg" (click)="setShowMenu()" alt="menu-icon">
-
+<app-navbar></app-navbar>
+<div *ngIf="promoDate" class="bg-warning text-center">
+  Hay una promoción que estará hasta el dia {{promoDate.getDate()}}
+  de {{getStringMonth(promoDate.getMonth())}}
+  del {{promoDate.getFullYear()}}
 </div>
 <div class="container w-100 py-5">
   <div class="options row mb-4 flex justify-content-start align-items-center mx-1">
     <div class="filter col-12 col-lg-6 mb-md-0">
       <form [formGroup]="form" class="row my-3 my-lg-0">
-<!--        <img src="assets/images/search-5-48.png" alt="search-icon">-->
-<!--        <input type="text" formControlName="searchInput" class="w-100 md-w-50 input" placeholder="Buscar por nombre" >-->
         <div class="col-12 col-md-6">
           <select class="input w-100" formControlName="filter" (change)="onFilterChange($event)">
             <option [ngValue]="1" class="text-secondary">Todos los productos</option>
@@ -112,7 +85,6 @@
               {{ product.inventory.name }}
             </h6>
           </div>
-
         </div>
         <div class="price col-12 col-md-4">
           <p>Precio:</p>
