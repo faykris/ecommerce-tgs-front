@@ -5,13 +5,15 @@
       <form [formGroup]="form" class="row my-3 my-lg-0">
         <div class="col-12 col-md-6">
           <select class="input w-100" formControlName="filter" (change)="onFilterChange($event)">
-            <option [ngValue]="1" class="text-secondary">Todos los productos</option>
-            <option [ngValue]="2" class="text-secondary">Por Categoria</option>
-            <option [ngValue]="3" class="text-secondary">Por Estado</option>
-            <option [ngValue]="4" class="text-secondary">Por Inventario</option>
+            <option [ngValue]="1" class="text-secondary">Productos Disponibles</option>
           </select>
         </div>
       </form>
+    </div>
+    <div class="col-12 col-lg-6 mb-md-0 d-flex justify-content-end">
+        <button (click)="exportProducts()" class="prod-btn prod-btn-primary">
+          Exportar a Excel
+        </button>
     </div>
   </div>
 </div>

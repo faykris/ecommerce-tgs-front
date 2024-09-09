@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {OrdersService} from "../services/orders.service";
 import {UsersService} from "../services/users.service";
+import {ReportsService} from "../services/reports.service";
 
 @Component({
   selector: 'app-reports',
@@ -25,6 +26,7 @@ export class ReportsComponent {
     private router: Router,
     private orderService: OrdersService,
     private userService: UsersService,
+    private reportsService: ReportsService,
   ) { }
 
   ngOnInit(): void {
@@ -55,5 +57,17 @@ export class ReportsComponent {
   logout(): void {
     this.userService.logout();
     this.router.navigate(['/login']);
+  }
+
+  exportProducts() {
+    this.reportsService.exportAvailableProducts().subscribe(response => {
+      const blob = new Blob([response], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `products-${new Date().toISOString()}.xlsx`;
+      a.click();
+      window.URL.revokeObjectURL(url);
+    });
   }
 }

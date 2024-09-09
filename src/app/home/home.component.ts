@@ -19,6 +19,7 @@ import {OptionsService} from "../services/options.service";
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent {
+  protected readonly isNullSelected = isNullSelected;
   form: FormGroup = new FormGroup({
     filter: new FormControl(1),
     inventory: new FormControl(null),
@@ -156,13 +157,13 @@ export class HomeComponent {
         if (result?.status === 401) {
           this.logout();
         }
+        this.resetFilterToAll();
         this.loadProducts();
         this.openSnackBar(`Se marcaron como defectuosos ${result?.length} productos`, 'Cerrar');
         this.selectedProducts = [];
         this.isSomeoneSelected = false;
       }
     });
-
   }
 
   markAsShipped() {
@@ -226,13 +227,18 @@ export class HomeComponent {
         if (result?.status === 401) {
           this.logout();
         }
+        this.resetFilterToAll();
         this.loadProducts();
         this.openSnackBar(`Se agregaron ${result?.length} nuevos productos`, 'Cerrar');
       }
     });
   }
 
-  updateProductInfo(product: any) {
+  updateProductInfo(product: any): void {
+    if (product.status !== 1) {
+      return;
+    }
+
     const updateInfoModal = this.modalService.open(UpdateProductInfoComponent, {
       size: 'md',
       centered: true,
@@ -246,10 +252,18 @@ export class HomeComponent {
         if (result?.status === 401) {
           this.logout();
         }
+        this.resetFilterToAll();
         this.loadProducts();
         this.openSnackBar(`Se ha actualizado productos`, 'Cerrar');
       }
     });
+  }
+
+  resetFilterToAll() {
+    this.form.controls['filter'].setValue(1)
+    this.form.controls['category'].reset();
+    this.form.controls['status'].reset();
+    this.form.controls['inventory'].reset();
   }
 
   openSnackBar(message: string, action: string ) {
@@ -261,8 +275,6 @@ export class HomeComponent {
   isSelectedProduct(id: number) {
     return this.selectedProducts.filter(product => product.id === id).length > 0;
   }
-
-  protected readonly isNullSelected = isNullSelected;
 
   onFilterChange(event: any) {
     const selectedValue = Number(event.target.value.split(': ')[1]);
