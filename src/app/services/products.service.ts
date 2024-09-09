@@ -17,9 +17,19 @@ export class ProductsService {
       .get<any>(`${this.apiUrl}/product/all`);
   }
 
-  getProductsByName(name?: string) {
+  getProductsByCategory(value: string) {
     return this.http
-      .get<any>(`${this.apiUrl}/product/search?name=${name}`);
+      .get<any>(`${this.apiUrl}/product/category?value=${value}`);
+  }
+
+  getProductsByStatus(value: string) {
+    return this.http
+      .get<any>(`${this.apiUrl}/product/status?value=${value}`);
+  }
+
+  getProductsByInventory(value: string) {
+    return this.http
+      .get<any>(`${this.apiUrl}/product/inventory?value=${value}`);
   }
 
   insertProducts(data: any) {

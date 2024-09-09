@@ -35,7 +35,6 @@ export class ReportsComponent {
 
   onFilterChange(event: any) {
     const selectedValue = Number(event.target.value.split(': ')[1]);
-
   }
 
   loadOrders() {
