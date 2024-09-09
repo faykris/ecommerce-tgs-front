@@ -38,11 +38,12 @@ export class OrdersComponent {
   loadOrders() {
     this.orderService.getAllOrders().subscribe({
       next: (data) => {
-        this.products = data?.map((a: any) => a.products).flat();
-        this.orders = data?.map((o: any) => o.order);
-        this.orders.map(order => {
-          order["products"] = this.products.filter((p: any) => p.order.id === order.id);
-        });
+        //this.products = data?.map((a: any) => a.products).flat();
+        this.orders = data;
+        // this.orders.map(order => {
+        //   order["products"] = this.products.filter((p: any) => p.order.id === order.id);
+        // });
+        console.log(this.orders)
         this.isLoadingOrders = false;
       },
       error: (error) => {

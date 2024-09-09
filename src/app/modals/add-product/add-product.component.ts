@@ -2,6 +2,7 @@ import {Component, Input} from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ProductsService } from 'src/app/services/products.service';
+import {isNullSelected} from "../../utils/tools.utils";
 
 @Component({
   selector: 'app-add-product',
@@ -26,9 +27,6 @@ export class AddProductComponent {
     private activeModal: NgbActiveModal
   ) {}
 
-  isNullSelected(formControlName: string) {
-    return this.form.get(formControlName)?.value === null;
-  }
 
   hasError(controlName: string, errorName: string): boolean | undefined {
     const control = this.form.get(controlName);
@@ -57,4 +55,6 @@ export class AddProductComponent {
       });
     }
   }
+
+  protected readonly isNullSelected = isNullSelected;
 }

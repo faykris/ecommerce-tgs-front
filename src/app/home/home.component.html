@@ -1,8 +1,8 @@
 <app-navbar></app-navbar>
-<div *ngIf="promoDate" class="bg-warning text-center">
-  Hay una promoción que estará hasta el dia {{promoDate.getDate()}}
-  de {{getStringMonth(promoDate.getMonth())}}
-  del {{promoDate.getFullYear()}}
+<div *ngIf="promoOrderDate" class="bg-warning text-center">
+  Hay una promoción que estará hasta el dia {{promoOrderDate.getDate()}}
+  de {{getStringMonth(promoOrderDate.getMonth())}}
+  del {{promoOrderDate.getFullYear()}}
 </div>
 <div class="container w-100 py-5">
   <div class="options row mb-4 flex justify-content-start align-items-center mx-1">

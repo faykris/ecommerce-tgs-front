@@ -11,6 +11,14 @@ import { OrdersService } from "../../services/orders.service";
 export class ConfirmShippingComponent {
   @Input() userId: number | null = null;
   @Input() products: any[] = [];
+  @Input() promoOrderDate: Date | null = null;
+  @Input() promoOrderDiscount: Number = 0;
+  @Input() promoUserDate: Date | null = null;
+  @Input() promoUserDiscount: Number = 0;
+  total: number = 0;
+  totalWithDiscount: number = 0;
+
+
   form: FormGroup = new FormGroup({
     description: new FormControl(null, [Validators.required]),
   });
@@ -22,7 +30,11 @@ export class ConfirmShippingComponent {
     private activeModal: NgbActiveModal
   ) {}
 
-  onCancel() {
+  ngOnInit(): void {
+    this.getTotalPrice();
+  }
+
+  onCancel(): void {
     this.activeModal.close(false);
   }
 
@@ -36,16 +48,19 @@ export class ConfirmShippingComponent {
     target.src = this.fallbackImageUrl;
   }
 
-  onSubmit() {
+  onSubmit(): void {
     this.isLoadingShipping = true;
     this.ordersService.insertOrder(
       {
         userId: this.userId,
         productIds: this.products.map(p => p.id),
-        description: this.form.value.description
+        description: this.form.value.description,
+        quantity: this.products.length,
+        discount: +this.promoUserDiscount + +this.promoOrderDiscount,
+        total: this.totalWithDiscount
       }
     ).subscribe({
-        next: (response) => {
+        next: () => {
           this.isLoadingShipping = false;
           this.activeModal.close(this.products);
         },
@@ -59,9 +74,16 @@ export class ConfirmShippingComponent {
       });
   }
 
-  getTotalPrice(): number {
-    let total = 0;
-    this.products.map(p => total += p.price);
-    return total;
+  getTotalPrice(): void {
+    let totalPrice = 0;
+    let totalDiscount = +this.promoUserDiscount + +this.promoOrderDiscount;
+
+    this.products.map(p => totalPrice += p.price);
+
+    this.total = totalPrice;
+
+    totalPrice -= (totalPrice * totalDiscount) / 100;
+
+    this.totalWithDiscount = totalPrice;
   }
 }

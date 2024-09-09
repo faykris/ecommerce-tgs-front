@@ -26,7 +26,7 @@
         </div>
       </div>
       <div class="w-100 mb-3">
-        <select class="w-100 md-w-50 input" [ngClass]="isNullSelected('category') ? 'text-secondary':''" formControlName="category">
+        <select class="w-100 md-w-50 input" [ngClass]="isNullSelected(form, 'category') ? 'text-secondary':''" formControlName="category">
           <option [ngValue]="null" class="text-secondary">Categoría*</option>
           <option value="Casuales" class="text-white">Casuales</option>
           <option value="Deportivos" class="text-white">Deportivos</option>
@@ -37,7 +37,7 @@
         </div>
       </div>
       <div class="w-100 mb-3">
-        <select class="w-100 md-w-50 input" [ngClass]="isNullSelected('inventoryId') ? 'text-secondary':''" formControlName="inventoryId">
+        <select class="w-100 md-w-50 input" [ngClass]="isNullSelected(form,'inventoryId') ? 'text-secondary':''" formControlName="inventoryId">
           <option [ngValue]="null" class="text-secondary">Inventario*</option>
           <option *ngFor="let inventory of inventories" [ngValue]="inventory.id"
                   class="text-white">{{inventory?.name}}</option>

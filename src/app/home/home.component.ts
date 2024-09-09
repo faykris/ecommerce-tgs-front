@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormControl } from '@angular/forms';
 import { UpdateProductInfoComponent } from '../modals/update-product-info/update-product-info.component';
-import { AddProductComponent } from '../modals/add-product/add-product.component';
 import { ProductsService } from '../services/products.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmDefectivesComponent } from '../modals/confirm-defectives/confirm-defectives.component';
@@ -34,8 +33,10 @@ export class HomeComponent {
   isSomeoneSelected = false;
   isLoadingProducts = true;
   fallbackImageUrl = 'assets/images/box-2-64.png';
-  promoDate: Date | null = null;
-  promoPercentage: number | null = null;
+  promoOrderDate: Date | null = null;
+  promoOrderDiscount: number | null = null;
+  promoUserDate: Date | null = null;
+  promoUserDiscount: number | null = null;
 
   constructor(
     private modalService: NgbModal,
@@ -172,6 +173,10 @@ export class HomeComponent {
 
     confirmShippingModal.componentInstance.products = this.selectedProducts;
     confirmShippingModal.componentInstance.userId = this.user.id;
+    confirmShippingModal.componentInstance.promoOrderDate = this.promoOrderDate;
+    confirmShippingModal.componentInstance.promoOrderDiscount = this.promoOrderDiscount;
+    confirmShippingModal.componentInstance.promoUserDate = this.promoUserDate;
+    confirmShippingModal.componentInstance.promoUserDiscount = this.promoUserDiscount;
 
     confirmShippingModal.result.then((result: any)=> {
       if (result) {
@@ -182,26 +187,6 @@ export class HomeComponent {
         this.openSnackBar(`Se marcaron como enviados ${result?.length} productos`, 'Cerrar');
         this.selectedProducts = [];
         this.isSomeoneSelected = false;
-      }
-    });
-  }
-
-  addProduct() {
-    const addProductModal = this.modalService.open(AddProductComponent, {
-      size: 'md',
-      centered: true,
-    });
-
-    addProductModal.componentInstance.inventories = this.inventories;
-    addProductModal.componentInstance.promoDate = this.promoDate;
-
-    addProductModal.result.then((result: any)=> {
-      if (result) {
-        if (result?.status === 401) {
-          this.logout();
-        }
-        this.loadProducts();
-        this.openSnackBar(`Se agregaron ${result?.length} nuevos productos`, 'Cerrar');
       }
     });
   }
@@ -225,6 +210,28 @@ export class HomeComponent {
     });
   }
 
+  addProduct() {
+    console.log(this.promoOrderDate);
+    console.log(this.promoOrderDiscount);
+
+    const addProductModal = this.modalService.open(UpdateProductInfoComponent, {
+      size: 'md',
+      centered: true,
+    });
+
+    addProductModal.componentInstance.inventories = this.inventories;
+
+    addProductModal.result.then((result: any)=> {
+      if (result) {
+        if (result?.status === 401) {
+          this.logout();
+        }
+        this.loadProducts();
+        this.openSnackBar(`Se agregaron ${result?.length} nuevos productos`, 'Cerrar');
+      }
+    });
+  }
+
   updateProductInfo(product: any) {
     const updateInfoModal = this.modalService.open(UpdateProductInfoComponent, {
       size: 'md',
@@ -232,6 +239,7 @@ export class HomeComponent {
     });
 
     updateInfoModal.componentInstance.product = product;
+    updateInfoModal.componentInstance.inventories = this.inventories;
 
     updateInfoModal.result.then((result: any)=> {
       if (result) {
@@ -239,7 +247,7 @@ export class HomeComponent {
           this.logout();
         }
         this.loadProducts();
-        this.openSnackBar(`Se ha actualizado el producto`, 'Cerrar');
+        this.openSnackBar(`Se ha actualizado productos`, 'Cerrar');
       }
     });
   }
@@ -329,9 +337,9 @@ export class HomeComponent {
   isExistOrdersPromo() {
     if (this.options[0]?.timeValue &&
       new Date(this.options[0]?.timeValue) > new Date()) {
-      this.promoDate = new Date(this.options[0]?.timeValue);
-      this.promoPercentage = this.options[0]?.integerValue;
-      console.log(this.promoDate)
+      this.promoOrderDate = new Date(this.options[0]?.timeValue);
+      this.promoOrderDiscount = this.options[0]?.integerValue;
+      console.log(this.promoOrderDate)
       return true;
     }
     return false;

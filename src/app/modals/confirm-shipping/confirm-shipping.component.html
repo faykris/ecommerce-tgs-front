@@ -23,8 +23,23 @@
           </div>
         </div>
       </div>
-      <div class="w-100 mb-3">
-        <h4 class="text-end">Total: <span class="total-price">{{ getTotalPrice() | currency }}</span></h4>
+      <div class="w-100 d-flex justify-content-end align-content-center mb-3 flex-wrap">
+        <p *ngIf="promoOrderDiscount || promoUserDiscount" class="w-100 text-end m-0">
+          <span *ngIf="promoOrderDiscount" class="text-primary mx-1">
+          -{{promoOrderDiscount}}%
+          </span>
+          <span *ngIf="promoUserDiscount" class="text-success mx-1">
+            -{{promoUserDiscount}}%
+          </span>
+          <span class="text-decoration-line-through ms-3">
+            {{ total | currency }}
+          </span>
+        </p>
+        <h4 class="text-end m-0">
+          Total: <span class="total-price">
+          {{ totalWithDiscount | currency }}
+          </span>
+        </h4>
       </div>
       <form [formGroup]="form" (ngSubmit)="onSubmit()" class="w-100">
         <div class="w-100 mb-3">
@@ -37,9 +52,8 @@
       <p class="text-warning text-center">
         ¿Estás seguro de envíar los productos seleccionados? Esta acción no podrá ser revertida.
       </p>
-
       <div class="d-flex justify-content-center">
-          <button (click)="onCancel()" class="prod-btn prod-btn-secondary">Cancelar</button>
+          <button (click)="onCancel()" type="button" class="prod-btn prod-btn-secondary">Cancelar</button>
           <button (click)="onSubmit()" type="submit" class="prod-btn prod-btn-primary mx-2" [disabled]="form.invalid">
               <p *ngIf="!isLoadingShipping" class="m-0">Guardar</p>
               <img *ngIf="isLoadingShipping" class="loading" src="https://i.gifer.com/origin/b4/b4d657e7ef262b88eb5f7ac021edda87.gif" alt="loader">
