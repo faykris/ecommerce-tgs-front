@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import {FormControl, FormGroup} from "@angular/forms";
 import { Router } from '@angular/router';
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {OrdersService} from "../services/orders.service";
-import {UsersService} from "../services/users.service";
-import {ReportsService} from "../services/reports.service";
+import {OrdersService} from "../../services/orders.service";
+import {UsersService} from "../../services/users.service";
+import {ReportsService} from "../../services/reports.service";
 
 @Component({
   selector: 'app-reports',
@@ -33,8 +33,9 @@ export class ReportsComponent {
     this.loadOrders();
   }
 
-  onFilterChange(event: any) {
-    const selectedValue = Number(event.target.value.split(': ')[1]);
+  onFilterChange(event: Event): void {
+    // TODO --- implement later ----
+    // const selectedValue = Number(event.target.value.split(': ')[1]);
   }
 
   loadOrders() {

@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ProductsService } from 'src/app/services/products.service';
-import {isNullSelected} from "../../utils/tools.utils";
+import {isNullSelected} from "../../../utils/tools.utils";
 
 @Component({
   selector: 'app-update-product-info',
@@ -38,7 +38,7 @@ export class UpdateProductInfoComponent {
     }
   }
 
-  fillForm() {
+  fillForm(): void {
     this.form.get('name')?.setValue(this.product?.name);
     this.form.get('description')?.setValue(this.product?.description);
     this.form.get('price')?.setValue(this.product?.price);
@@ -52,11 +52,11 @@ export class UpdateProductInfoComponent {
     return control?.hasError(errorName) && (control.dirty || control.touched);
   }
 
-  onCancel() {
+  onCancel(): void {
     this.activeModal.close(false);
   }
 
-  onSubmit() {
+  onSubmit(): void {
     this.isLoadingUpdate = true;
     if (this.form.valid) {
       if (this.product) {
@@ -67,7 +67,7 @@ export class UpdateProductInfoComponent {
     }
   }
 
-  updateProducts() {
+  updateProducts(): void {
     this.productsService.updateInfoProduct(this.product?.productCode, this.form.value).subscribe({
       next: (response) => {
         this.isLoadingUpdate = false;
@@ -83,7 +83,7 @@ export class UpdateProductInfoComponent {
     });
   }
 
-  insertProducts() {
+  insertProducts(): void {
     this.productsService.insertProducts(this.form.value).subscribe({
       next: (response) => {
         this.isLoadingUpdate = false;
@@ -98,6 +98,4 @@ export class UpdateProductInfoComponent {
       }
     });
   }
-
-
 }

@@ -10,22 +10,21 @@ import { ProductsService } from 'src/app/services/products.service';
 export class ConfirmDefectivesComponent {
   @Input() productIdList: number[] = [];
   isLoadingDefectives = false;
-  
+
   constructor(
     private productsService: ProductsService,
     private activeModal: NgbActiveModal
   ) {}
 
-
-  onCancel() {
+  onCancel(): void {
     this.activeModal.close(false);
   }
 
-  onSubmit() {
+  onSubmit(): void {
     this.isLoadingDefectives = true;
     this.productsService.markDefectivesProducts({ productIdList: this.productIdList })
       .subscribe({
-        next: (response) => {
+        next: () => {
           this.isLoadingDefectives = false;
           this.activeModal.close(this.productIdList);
         },

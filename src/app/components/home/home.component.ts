@@ -2,16 +2,19 @@ import { Component } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormControl } from '@angular/forms';
 import { UpdateProductInfoComponent } from '../modals/update-product-info/update-product-info.component';
-import { ProductsService } from '../services/products.service';
+import { ProductsService } from '../../services/products.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmDefectivesComponent } from '../modals/confirm-defectives/confirm-defectives.component';
 import { ConfirmShippingComponent } from '../modals/confirm-shipping/confirm-shipping.component';
-import { UsersService } from '../services/users.service';
+import { UsersService } from '../../services/users.service';
 import { Router } from '@angular/router';
-import {InventoriesService} from "../services/inventories.service";
-import {AddInventoryComponent} from "../modals/add-inventory/add-inventory.component";
-import {getStringMonth, isNullSelected} from "../utils/tools.utils";
-import {OptionsService} from "../services/options.service";
+import { InventoriesService} from "../../services/inventories.service";
+import { AddInventoryComponent } from "../modals/add-inventory/add-inventory.component";
+import { getStringMonth, isNullSelected } from "../../utils/tools.utils";
+import { OptionsService } from "../../services/options.service";
+import { User } from "../../models/user.model";
+import {Product} from "../../models/product.model";
+import {Inventory} from "../../models/inventory.model";
 
 @Component({
   selector: 'app-home',
@@ -20,17 +23,18 @@ import {OptionsService} from "../services/options.service";
 })
 export class HomeComponent {
   protected readonly isNullSelected = isNullSelected;
+  protected readonly getStringMonth = getStringMonth;
   form: FormGroup = new FormGroup({
     filter: new FormControl(1),
     inventory: new FormControl(null),
     category: new FormControl(null),
     status: new FormControl(null),
   });
-  user: any = null;
-  products: any[] = [];
-  inventories: any[] = [];
+  user!: User;
+  products: Product[] = [];
+  inventories: Inventory[] = [];
   options: any[] = [];
-  selectedProducts: any[] = [];
+  selectedProducts: Product[] = [];
   isSomeoneSelected = false;
   isLoadingProducts = true;
   fallbackImageUrl = 'assets/images/box-2-64.png';
@@ -101,6 +105,7 @@ export class HomeComponent {
     this.productsService.getAllProducts().subscribe({
       next: (data) => {
         this.products = data;
+        console.log('products:', this.products);
         this.isLoadingProducts = false;
       },
       error: (error) => {
@@ -356,7 +361,4 @@ export class HomeComponent {
     }
     return false;
   }
-
-
-  protected readonly getStringMonth = getStringMonth;
 }

@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import { OrdersService } from "../../services/orders.service";
+import { OrdersService } from "../../../services/orders.service";
 
 @Component({
   selector: 'app-confirm-shipping',
@@ -15,13 +15,11 @@ export class ConfirmShippingComponent {
   @Input() promoOrderDiscount: Number = 0;
   @Input() promoUserDate: Date | null = null;
   @Input() promoUserDiscount: Number = 0;
-  total: number = 0;
-  totalWithDiscount: number = 0;
-
-
   form: FormGroup = new FormGroup({
     description: new FormControl(null, [Validators.required]),
   });
+  total: number = 0;
+  totalWithDiscount: number = 0;
   isLoadingShipping = false;
   fallbackImageUrl = 'assets/images/box-2-64.png';
 

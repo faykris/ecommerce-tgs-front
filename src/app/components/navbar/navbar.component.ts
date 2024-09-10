@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {Router} from "@angular/router";
-import {UsersService} from "../services/users.service";
+import {UsersService} from "../../services/users.service";
 
 @Component({
   selector: 'app-navbar',
@@ -16,23 +16,23 @@ export class NavbarComponent {
   ) {
   }
 
-  setShowMenu() {
+  setShowMenu(): void {
     this.showMenu = !this.showMenu;
   }
 
-  goToProducts() {
+  goToProducts(): void {
     this.router.navigate(['/home']);
   }
 
-  goToOrders() {
+  goToOrders(): void {
     this.router.navigate(['/orders']);
   }
 
-  goToUsers() {
+  goToUsers(): void {
     this.router.navigate(['/users']);
   }
 
-  goToReports() {
+  goToReports(): void {
     this.router.navigate(['/reports']);
   }
 

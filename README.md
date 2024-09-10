@@ -1,4 +1,12 @@
-# InventoryWeb
+# Angular - E-commerce Admin Website
+
+## Overview
+
+![Preview](src/assets/images/img.png)
+
+You can manage products in different inventories and create their shipping orders. Also you can see created orders and download a report of available products.
+
+## Version
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.9.
 

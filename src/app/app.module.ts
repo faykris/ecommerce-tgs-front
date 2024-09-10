@@ -3,23 +3,23 @@ import { BrowserModule } from '@angular/platform-browser';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HomeComponent } from './home/home.component';
+import { HomeComponent } from './components/home/home.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { UpdateProductInfoComponent } from './modals/update-product-info/update-product-info.component';
-import { AddProductComponent } from './modals/add-product/add-product.component';
+import { UpdateProductInfoComponent } from './components/modals/update-product-info/update-product-info.component';
+import { AddProductComponent } from './components/modals/add-product/add-product.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ConfirmDefectivesComponent } from './modals/confirm-defectives/confirm-defectives.component';
-import { ConfirmShippingComponent } from './modals/confirm-shipping/confirm-shipping.component';
-import { LoginComponent } from './login/login.component';
+import { ConfirmDefectivesComponent } from './components/modals/confirm-defectives/confirm-defectives.component';
+import { ConfirmShippingComponent } from './components/modals/confirm-shipping/confirm-shipping.component';
+import { LoginComponent } from './components/login/login.component';
 import { TokenInterceptor } from './services/token.interceptor';
-import { RegisterUserComponent } from './modals/register-user/register-user.component';
-import { AddInventoryComponent } from './modals/add-inventory/add-inventory.component';
-import { NavbarComponent } from './navbar/navbar.component';
-import { ReportsComponent } from './reports/reports.component';
-import { UsersComponent } from './users/users.component';
-import { OrdersComponent } from './orders/orders.component';
+import { RegisterUserComponent } from './components/modals/register-user/register-user.component';
+import { AddInventoryComponent } from './components/modals/add-inventory/add-inventory.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { ReportsComponent } from './components/reports/reports.component';
+import { UsersComponent } from './components/users/users.component';
+import { OrdersComponent } from './components/orders/orders.component';
 
 @NgModule({
   declarations: [

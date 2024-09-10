@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { UsersService } from 'src/app/services/users.service';
+import { UsersService } from '../../../services/users.service';
 
 @Component({
   selector: 'app-register-user',
@@ -23,20 +23,16 @@ export class RegisterUserComponent {
     private activeModal: NgbActiveModal
   ) {}
 
-  isNullSelected() {
-    return this.form.get('elaboration')?.value === null;
-  }
-
   hasError(controlName: string, errorName: string): boolean | undefined {
     const control = this.form.get(controlName);
     return control?.hasError(errorName) && (control.dirty || control.touched);
   }
 
-  onCancel() {
+  onCancel(): void {
     this.activeModal.close(false);
   }
 
-  onSubmit() {
+  onSubmit(): void {
     this.isLoadingRegister = true;
     if (this.form.valid) {
       this.userService.addUser(this.form.value).subscribe({
@@ -50,6 +46,5 @@ export class RegisterUserComponent {
         }
       });
     }
-
   }
 }

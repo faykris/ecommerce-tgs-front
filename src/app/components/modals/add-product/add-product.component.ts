@@ -2,7 +2,7 @@ import {Component, Input} from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ProductsService } from 'src/app/services/products.service';
-import {isNullSelected} from "../../utils/tools.utils";
+import {isNullSelected} from "../../../utils/tools.utils";
 
 @Component({
   selector: 'app-add-product',
@@ -11,6 +11,7 @@ import {isNullSelected} from "../../utils/tools.utils";
 })
 export class AddProductComponent {
   @Input() inventories: any[] = [];
+  protected readonly isNullSelected = isNullSelected;
   form: FormGroup = new FormGroup({
     name: new FormControl(null, [Validators.required]),
     description: new FormControl(null, [Validators.required]),
@@ -33,11 +34,11 @@ export class AddProductComponent {
     return control?.hasError(errorName) && (control.dirty || control.touched);
   }
 
-  onCancel() {
+  onCancel(): void {
     this.activeModal.close(false);
   }
 
-  onSubmit() {
+  onSubmit(): void {
     this.isLoadingSave = true;
     if (this.form.valid) {
       this.productsService.insertProducts(this.form.value).subscribe({
@@ -55,6 +56,4 @@ export class AddProductComponent {
       });
     }
   }
-
-  protected readonly isNullSelected = isNullSelected;
 }

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { UsersService } from '../services/users.service';
+import { UsersService } from '../../services/users.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { RegisterUserComponent } from '../modals/register-user/register-user.component';
 
@@ -37,14 +37,14 @@ export class LoginComponent {
       centered: true,
     });
 
-    registerModal.result.then((result: any)=> {
+    registerModal.result.then((result: any) => {
       if (result) {
         this.openSnackBar(`Te has registrado satisfactoriamente`, 'Cerrar');
       }
     });
   }
 
-  openSnackBar(message: string, action: string ) {
+  openSnackBar(message: string, action: string): void {
     this.snackBar.open(message, action, {
       duration: 3000,
     });
@@ -53,7 +53,10 @@ export class LoginComponent {
   login(): void {
     this.isLoadingLogin = true;
     this.isError = false;
-    this.usersService.login(this.form.get('username')?.value, this.form.get('password')?.value).subscribe({
+    this.usersService.login(
+      this.form.get('username')?.value,
+      this.form.get('password')?.value
+    ).subscribe({
       next: () => {
         this.isLoadingLogin = false;
         this.router.navigate(['/home'])

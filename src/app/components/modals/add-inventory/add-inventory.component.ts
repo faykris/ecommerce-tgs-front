@@ -1,7 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
-import {InventoriesService} from "../../services/inventories.service";
+import {InventoriesService} from "../../../services/inventories.service";
 
 @Component({
   selector: 'app-add-inventory',
@@ -25,11 +25,11 @@ export class AddInventoryComponent {
     return control?.hasError(errorName) && (control.dirty || control.touched);
   }
 
-  onCancel() {
+  onCancel(): void {
     this.activeModal.close(false);
   }
 
-  onSubmit() {
+  onSubmit(): void {
     this.isLoadingSave = true;
 
     if (this.form.valid) {
@@ -47,7 +47,7 @@ export class AddInventoryComponent {
               this.activeModal.close(error);
             }
           }
-        })
+        });
     }
   }
 }
