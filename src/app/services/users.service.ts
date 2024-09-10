@@ -5,6 +5,10 @@ import { tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { jwtDecode } from 'jwt-decode';
 
+export interface TokenResponse {
+  token: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -41,9 +45,9 @@ export class UsersService {
     return localStorage.getItem(this.tokenKey);
   }
 
-  addUser(data: any) {
+  addUser(data: any): Observable<TokenResponse> {
     return this.http
-      .post(`${this.apiUrl}/auth/register`, data);
+      .post<TokenResponse>(`${this.apiUrl}/auth/register`, data);
   }
 
   getUser(email: string): Observable<any> {
